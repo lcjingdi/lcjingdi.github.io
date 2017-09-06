@@ -1,0 +1,493 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>Hexo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="John Doe">
+    
+
+    
+    <meta name="description" content="[TOC] apache安装方法：mac os系统自带 使用命令：1234sudo apachectl start	//开启服务器sudo apachectl -v		//查看版本号sudo apachectl restart	//重启apachehttpd -M				//当前apache加载的所有模块 访问方法：  127.0.0.1 localhost 本机IP  目录位置mac自带的apa">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://yoursite.com/2017/05/11/PHP环境搭建/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="[TOC] apache安装方法：mac os系统自带 使用命令：1234sudo apachectl start	//开启服务器sudo apachectl -v		//查看版本号sudo apachectl restart	//重启apachehttpd -M				//当前apache加载的所有模块 访问方法：  127.0.0.1 localhost 本机IP  目录位置mac自带的apa">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/2017/05/11/PHP环境搭建/1.png">
+<meta property="og:updated_time" content="2017-09-06T09:26:22.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Hexo">
+<meta name="twitter:description" content="[TOC] apache安装方法：mac os系统自带 使用命令：1234sudo apachectl start	//开启服务器sudo apachectl -v		//查看版本号sudo apachectl restart	//重启apachehttpd -M				//当前apache加载的所有模块 访问方法：  127.0.0.1 localhost 本机IP  目录位置mac自带的apa">
+<meta name="twitter:image" content="http://yoursite.com/2017/05/11/PHP环境搭建/1.png">
+
+    
+    <link rel="alternative" href="/atom.xml" title="Hexo" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Hexo">Hexo</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">主页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="hidden" name="q" value="site:yoursite.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2017/05/11/PHP环境搭建/" title="" itemprop="url"></a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="John Doe" target="_blank" itemprop="author">John Doe</a>
+		
+  <p class="article-time">
+    <time datetime="2017-05-11T13:03:51.000Z" itemprop="datePublished"> Published 2017-05-11</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">Contents</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#apache"><span class="toc-number">1.</span> <span class="toc-text">apache</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#安装方法："><span class="toc-number">1.0.1.</span> <span class="toc-text">安装方法：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用命令："><span class="toc-number">1.0.2.</span> <span class="toc-text">使用命令：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#目录位置"><span class="toc-number">1.0.3.</span> <span class="toc-text">目录位置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#配置信息"><span class="toc-number">1.0.4.</span> <span class="toc-text">配置信息</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#概念"><span class="toc-number">1.0.5.</span> <span class="toc-text">概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#名词解析"><span class="toc-number">1.0.6.</span> <span class="toc-text">名词解析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#配置系统介绍"><span class="toc-number">1.0.7.</span> <span class="toc-text">配置系统介绍</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#PHP"><span class="toc-number">2.</span> <span class="toc-text">PHP</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#与Apache关联"><span class="toc-number">2.0.1.</span> <span class="toc-text">与Apache关联</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#配置PHP"><span class="toc-number">2.0.2.</span> <span class="toc-text">配置PHP</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#MySQL"><span class="toc-number">3.</span> <span class="toc-text">MySQL</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#安装MySQL"><span class="toc-number">3.0.1.</span> <span class="toc-text">安装MySQL</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#建立与PHP的连接"><span class="toc-number">3.0.2.</span> <span class="toc-text">建立与PHP的连接</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#命令"><span class="toc-number">3.0.3.</span> <span class="toc-text">命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#操作流程"><span class="toc-number">3.0.4.</span> <span class="toc-text">操作流程</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#PHP操作MySQL"><span class="toc-number">4.</span> <span class="toc-text">PHP操作MySQL</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#配置虚拟主机"><span class="toc-number">5.</span> <span class="toc-text">配置虚拟主机</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#注意"><span class="toc-number">5.0.0.1.</span> <span class="toc-text">注意</span></a></li></ol></li></ol></li></ol></li></ol>
+		
+		</div>
+		
+		<p>[TOC]</p>
+<h1 id="apache"><a href="#apache" class="headerlink" title="apache"></a>apache</h1><h3 id="安装方法："><a href="#安装方法：" class="headerlink" title="安装方法："></a>安装方法：</h3><p>mac os系统自带</p>
+<h3 id="使用命令："><a href="#使用命令：" class="headerlink" title="使用命令："></a>使用命令：</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">sudo apachectl start	<span class="comment">//开启服务器</span></div><div class="line">sudo apachectl -v		<span class="comment">//查看版本号</span></div><div class="line">sudo apachectl restart	<span class="comment">//重启apache</span></div><div class="line">httpd -M				<span class="comment">//当前apache加载的所有模块</span></div></pre></td></tr></table></figure>
+<p><strong>访问方法：</strong></p>
+<ol>
+<li>127.0.0.1</li>
+<li>localhost</li>
+<li>本机IP</li>
+</ol>
+<h3 id="目录位置"><a href="#目录位置" class="headerlink" title="目录位置"></a>目录位置</h3><p>mac自带的apache的位置为：<strong>/etc/apache2/</strong></p>
+<h3 id="配置信息"><a href="#配置信息" class="headerlink" title="配置信息"></a>配置信息</h3><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//加载php模块信息步骤：名字+所在地址</span></div><div class="line">LoadModule php5_module <span class="string">"php模块所在地址"</span><span class="comment">//名字php5_module固定好</span></div><div class="line"><span class="comment">//设置处理php的方式</span></div><div class="line">&lt;FilesMatch <span class="string">"\.php$"</span>&gt;</div><div class="line">    SetHandler application/x-httpd-php</div><div class="line">&lt;/FilesMatch&gt;</div></pre></td></tr></table></figure>
+<h3 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">web项目，基于b/s架构</div><div class="line">b（brower）s（server）</div><div class="line">b／s模式：用户需要通过浏览器查看相应资源，但是资源都在服务器上，必须通过浏览器向服务器发出请求才可以</div><div class="line">交互步骤：</div><div class="line">1. 浏览器向服务器发出请求request</div><div class="line">2. 服务器处理请求，将请求结果响应发送给浏览器response</div><div class="line">3. 浏览器解析并显示结果</div><div class="line"></div><div class="line">静态网站：站点所有的功能都由静态代码（不需要服务器解析，在浏览器上就可以完成解析）完成</div><div class="line">需要：html／css／js</div><div class="line">优点：速度快</div><div class="line"></div><div class="line">动态网站：存在复杂的业务逻辑和大量数据需要在服务器端处理完毕后，交由浏览器端显示</div><div class="line">需要：业务逻辑语言（PHP），数据存储方案（MySQL）</div><div class="line">缺点：速度慢</div><div class="line"></div><div class="line">静态化技术：把动态网站静态化</div></pre></td></tr></table></figure>
+<h3 id="名词解析"><a href="#名词解析" class="headerlink" title="名词解析"></a>名词解析</h3><ol>
+<li><p>Network Domain：域名</p>
+<p>比如lcjingdi.com 就是域名 </p>
+</li>
+<li><p>Server Name:服务器名</p>
+<p>比如www.lcjingdi.com</p>
+</li>
+</ol>
+<h3 id="配置系统介绍"><a href="#配置系统介绍" class="headerlink" title="配置系统介绍"></a>配置系统介绍</h3><p><code>主配置文件</code>：httpd.conf（<strong>httpd.conf</strong>:apache主配置文件，几乎可以完成apache所有配置）和（<strong>Extra/httpd-vhosts.conf</strong>:由主配置文件内部载入的扩展配置文件，最终会成为<em>一个部分</em>）</p>
+<p><code>分布式配置文件</code>：分散到不同目录中的apache配置文件便于针对某个目录进行配置,.htaccess这个文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">一般的apache工作流程：</div><div class="line">1. 在目录中创建一个.htaccess文件（此文件仅对该目录有效），该文件即时生效，不需要重启服务器</div></pre></td></tr></table></figure>
+<p><strong>如何使用分布式配置文件？</strong></p>
+<ol>
+<li><p>主目录配置文件允许某个目录可以使用分布式配置文件</p>
+</li>
+<li><p>利用配置目录指令（在conf/httpd.conf或则会conf/extra/httpd-vhosts.conf中）</p>
+<p>Allowoverride All    允许分布式配置文件重写主配置的值</p>
+</li>
+</ol>
+<p><strong>Apache可以配置PHP</strong></p>
+<p>例如：为了某个站点，对php做特别的配置</p>
+<h1 id="PHP"><a href="#PHP" class="headerlink" title="PHP"></a>PHP</h1><h3 id="与Apache关联"><a href="#与Apache关联" class="headerlink" title="与Apache关联"></a>与Apache关联</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">1. 安装php</div><div class="line">2. 配置关联</div><div class="line">	php作为apache的模块</div><div class="line">查看apache配置文件：</div><div class="line">	apache/conf/httpd.conf</div><div class="line">配置php与apache关联：FileMatch</div><div class="line">&lt;FilesMatch &quot;\.php$&quot;&gt;</div><div class="line">    SetHandler application/x-httpd-php</div><div class="line">&lt;/FilesMatch&gt;</div></pre></td></tr></table></figure>
+<h3 id="配置PHP"><a href="#配置PHP" class="headerlink" title="配置PHP"></a>配置PHP</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">//位置：可以根据phpinfo信息里面的Loaded Configuration File里面的信息来看到</div><div class="line">1. 在php安装目录中增加一个php.ini文件</div><div class="line">2. 在apache里面设置php的ini查找目录</div><div class="line">PHPIniDir &quot;目录&quot;</div><div class="line">//配置时区在php.ini目录中</div><div class="line">date.timezone = PRC</div><div class="line"></div><div class="line"></div><div class="line">修改PHP的配置也需要apache服务器重启</div></pre></td></tr></table></figure>
+<h1 id="MySQL"><a href="#MySQL" class="headerlink" title="MySQL"></a>MySQL</h1><h3 id="安装MySQL"><a href="#安装MySQL" class="headerlink" title="安装MySQL"></a>安装MySQL</h3><p>是安装了一台MySQL数据服务器，基于C/S方式管理的</p>
+<p>C：Client 操作服务器必须使用相应的客户端（特定服务器的特定软件）</p>
+<p>S：Server</p>
+<p>位置：/usr/local/mysql</p>
+<h3 id="建立与PHP的连接"><a href="#建立与PHP的连接" class="headerlink" title="建立与PHP的连接"></a>建立与PHP的连接</h3><ol>
+<li><p>在php.ini文件中打开<strong>php_mysql.dll</strong></p>
+</li>
+<li><p>配置mysql目录</p>
+<p>extension_dir=”目录路径”</p>
+</li>
+</ol>
+<h3 id="命令"><a href="#命令" class="headerlink" title="命令"></a>命令</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">mysql -uroot -p123456 //进入mysql</div><div class="line">show databases;//显示数据库</div></pre></td></tr></table></figure>
+<h3 id="操作流程"><a href="#操作流程" class="headerlink" title="操作流程"></a>操作流程</h3><ol>
+<li>客户端对DBMS发出链接认证（mysql -uroot -p123456)</li>
+<li>客户端对DBMS发送SQL语句 </li>
+<li>DBMS处理SQL语句后返回给客户端</li>
+<li>客户端把DBMS返回的结果显示出来</li>
+</ol>
+<p><img src="1.png" alt="mysql操作流程"></p>
+<h1 id="PHP操作MySQL"><a href="#PHP操作MySQL" class="headerlink" title="PHP操作MySQL"></a>PHP操作MySQL</h1><p>php变为mysql客户端类似于上面的操作流程</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="number">1.</span> 连接认证（ip（地址），端口，用户名，密码）</div><div class="line">  $host = <span class="string">'127.0.0.1'</span>;</div><div class="line">	$port = <span class="string">'3306'</span>;</div><div class="line">	$user = <span class="string">'root'</span>;</div><div class="line">	$password = <span class="string">'123456'</span>;</div><div class="line">	$link = mysql_connect(<span class="string">"$host:$port"</span>, $user, $password);</div><div class="line">	<span class="keyword">if</span> ($link) &#123;</div><div class="line">		var_dump($link);</div><div class="line">	&#125; <span class="keyword">else</span> &#123;</div><div class="line">		<span class="keyword">echo</span> <span class="string">"连接失败"</span>;</div><div class="line">	&#125;</div><div class="line"><span class="number">2.</span> 发送sql语句</div><div class="line">  $sql = <span class="string">'show databases'</span>;</div><div class="line">  $result = mysql_query($sql, $link);</div><div class="line"><span class="number">3.</span> mysql服务器执行sql语句并返回结果</div><div class="line"><span class="number">4.</span> 处理结果</div><div class="line">  $row = mysql_fetch_assoc($result);<span class="comment">//一次只能取一个数据</span></div><div class="line"><span class="number">5.</span> 断开连接</div><div class="line">  mysql_close($link);</div></pre></td></tr></table></figure>
+<h1 id="配置虚拟主机"><a href="#配置虚拟主机" class="headerlink" title="配置虚拟主机"></a>配置虚拟主机</h1><p>为什么要配置虚拟主机？</p>
+<p>基于域名的虚拟主机</p>
+<p>配置目录：httpd.conf</p>
+<p>方法一：直接在文件的最下面配置</p>
+<p>方法二：</p>
+<p>httpd.conf里面有一个# Virtual hosts 下面的：</p>
+<p><code>Include /private/etc/apache2/extra/httpd-vhosts.conf</code></p>
+<p>虚拟主机的配置需要写在这个文件里面，在这个文件完成后再载入apache里面</p>
+<ol>
+<li><p>如果是配置基于域名的就要配置</p>
+<p>NameVirtualHost *:80</p>
+<p>NameVirtualHost：表示开启一个基于域名的虚拟主机</p>
+<p>*:80 表示监听所有ip的80端口的虚拟主机的请求</p>
+</li>
+<li><p>配置虚拟主机</p>
+<p>ServerName:主机名</p>
+<p>DocumentRoot:主机地址（路径目录）</p>
+<p>格式：</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="section">&lt;VirtualHost *:80&gt;</span></div><div class="line">	<span class="attribute"><span class="nomarkup">ServerName</span></span> food.jingdi.com</div><div class="line">	<span class="attribute"><span class="nomarkup">DocumentRoot</span></span> <span class="string">"/Users/jingdi/Desktop/ppp/food"</span></div><div class="line"><span class="section">&lt;/VirtualHost&gt;</span></div></pre></td></tr></table></figure>
+</li>
+<li><p>通过域名解析，完成配置</p>
+<p>127.0.0.1     相应域名</p>
+</li>
+</ol>
+<h4 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h4><ol>
+<li><p>默认主机问题</p>
+<p>因为是基于域名的虚拟主机，如果不能通过域名确定虚拟主机，则会访问默认主机（第一个虚拟主机）</p>
+</li>
+<li><p>目录权限问题</p>
+<p>apache可以设定目录的访问权限，通过apache的<directory>来完成目录的配置(参考httpd.conf)</directory></p>
+<p>如果没有对相应的虚拟主机的目录进行权限配置，则使用默认值</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">#</div><div class="line"># Deny access to the entirety of your server&apos;s filesystem. You must</div><div class="line"># explicitly permit access to web content directories in other </div><div class="line"># &lt;Directory&gt; blocks below.</div><div class="line">#</div><div class="line">&lt;Directory /&gt;</div><div class="line">    AllowOverride none</div><div class="line">    Require all denied</div><div class="line">&lt;/Directory&gt;</div></pre></td></tr></table></figure>
+<p><strong>一般把目录权限写在配置虚拟主机的地方</strong></p>
+<p>​</p>
+<p>​</p>
+</li>
+</ol>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://yoursite.com/2017/05/11/PHP环境搭建/" data-title="Hexo" data-tsina="" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2017/08/21/web框架/" title="">
+  <strong>上一篇：</strong><br/>
+  <span>
+  (no title)</span>
+</a>
+</div>
+
+
+</nav>
+
+	
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">Contents</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#apache"><span class="toc-number">1.</span> <span class="toc-text">apache</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#安装方法："><span class="toc-number">1.0.1.</span> <span class="toc-text">安装方法：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用命令："><span class="toc-number">1.0.2.</span> <span class="toc-text">使用命令：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#目录位置"><span class="toc-number">1.0.3.</span> <span class="toc-text">目录位置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#配置信息"><span class="toc-number">1.0.4.</span> <span class="toc-text">配置信息</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#概念"><span class="toc-number">1.0.5.</span> <span class="toc-text">概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#名词解析"><span class="toc-number">1.0.6.</span> <span class="toc-text">名词解析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#配置系统介绍"><span class="toc-number">1.0.7.</span> <span class="toc-text">配置系统介绍</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#PHP"><span class="toc-number">2.</span> <span class="toc-text">PHP</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#与Apache关联"><span class="toc-number">2.0.1.</span> <span class="toc-text">与Apache关联</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#配置PHP"><span class="toc-number">2.0.2.</span> <span class="toc-text">配置PHP</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#MySQL"><span class="toc-number">3.</span> <span class="toc-text">MySQL</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#安装MySQL"><span class="toc-number">3.0.1.</span> <span class="toc-text">安装MySQL</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#建立与PHP的连接"><span class="toc-number">3.0.2.</span> <span class="toc-text">建立与PHP的连接</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#命令"><span class="toc-number">3.0.3.</span> <span class="toc-text">命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#操作流程"><span class="toc-number">3.0.4.</span> <span class="toc-text">操作流程</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#PHP操作MySQL"><span class="toc-number">4.</span> <span class="toc-text">PHP操作MySQL</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#配置虚拟主机"><span class="toc-number">5.</span> <span class="toc-text">配置虚拟主机</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#注意"><span class="toc-number">5.0.0.1.</span> <span class="toc-text">注意</span></a></li></ol></li></ol></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+
+  
+
+
+  
+
+  
+
+  <div class="linkslist">
+  <p class="asidetitle">Links</p>
+    <ul>
+        
+    </ul>
+</div>
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2017 
+		
+		<a href="/about" target="_blank" title="John Doe">John Doe</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
