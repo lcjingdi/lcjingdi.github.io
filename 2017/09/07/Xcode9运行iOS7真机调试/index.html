@@ -20,7 +20,7 @@
 <meta property="og:description" content="由于从Xcode9只支持iOS8以上的设备  原因：不支持iOS7.0以上版本是因为在/Applications/Xcode.app(Xcode-beta.app此路径为beta版的路径)/Contents/Developer/Platforms/iPhoneOS.platform/DeviceSupport此目录下并不包含7.0的真机系统文件夹，所以不能进行调试 解决方法：直接从别的Xcode或">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://melonshare.com/images/Xcode9运行iOS7真机调试1.png">
-<meta property="og:updated_time" content="2017-09-07T07:38:46.000Z">
+<meta property="og:updated_time" content="2017-09-07T08:22:58.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Xcode9运行iOS7真机调试">
 <meta name="twitter:description" content="由于从Xcode9只支持iOS8以上的设备  原因：不支持iOS7.0以上版本是因为在/Applications/Xcode.app(Xcode-beta.app此路径为beta版的路径)/Contents/Developer/Platforms/iPhoneOS.platform/DeviceSupport此目录下并不包含7.0的真机系统文件夹，所以不能进行调试 解决方法：直接从别的Xcode或">
@@ -48,7 +48,7 @@
 				<h1 class="site-name"><a href="/" title="lcjingdi的博客">lcjingdi的博客</a></h1>
 				<h2 class="blog-motto">记录自己学习的点点滴滴</h2>
 			</div>
-			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜單">
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
 			</a></div>
 			<nav class="animated">
 				<ul>
@@ -68,7 +68,7 @@
  					
 					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
 						<label>Search</label>
-						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
 						<input type="hidden" name="q" value="site:melonshare.com">
 					</form>
 					
@@ -91,14 +91,14 @@
 		<a href="/about" title="lcjingdi" target="_blank" itemprop="author">lcjingdi</a>
 		
   <p class="article-time">
-    <time datetime="2017-09-07T07:28:50.000Z" itemprop="datePublished"> 發表於 2017-09-07</time>
+    <time datetime="2017-09-07T07:28:50.000Z" itemprop="datePublished"> Published 2017-09-07</time>
     
   </p>
 </header>
 	<div class="article-content">
 		
 		<div id="toc" class="toc-article">
-			<strong class="toc-title">文章目錄</strong>
+			<strong class="toc-title">Contents</strong>
 		
 			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#原因："><span class="toc-number">1.</span> <span class="toc-text">原因：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#解决方法："><span class="toc-number">2.</span> <span class="toc-text">解决方法：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#下载链接"><span class="toc-number">3.</span> <span class="toc-text">下载链接</span></a></li></ol>
 		
@@ -144,6 +144,14 @@
 	
 <nav class="article-nav clearfix">
  
+ <div class="prev" >
+ <a href="/2017/09/07/利用Charles进行JS调试/" title="iOS利用Charles进行JS调试">
+  <strong>上一篇：</strong><br/>
+  <span>
+  iOS利用Charles进行JS调试</span>
+</a>
+</div>
+
 
 <div class="next">
 <a href="/2017/09/06/github搭建博客/"  title="Github + Hexo 构建个人博客">
@@ -159,17 +167,17 @@
 
 
 </div>  
-      <div class="openaside"><a class="navbutton" href="#" title="顯示側邊欄"></a></div>
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
 
   <div id="toc" class="toc-aside">
-  <strong class="toc-title">文章目錄</strong>
+  <strong class="toc-title">Contents</strong>
  
  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#原因："><span class="toc-number">1.</span> <span class="toc-text">原因：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#解决方法："><span class="toc-number">2.</span> <span class="toc-text">解决方法：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#下载链接"><span class="toc-number">3.</span> <span class="toc-text">下载链接</span></a></li></ol>
  
   </div>
 
 <div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="隱藏側邊欄"></a></div>
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
 <aside class="clearfix">
 
   
@@ -177,11 +185,11 @@
 
   
 <div class="categorieslist">
-	<p class="asidetitle">分類</p>
+	<p class="asidetitle">Categories</p>
 		<ul>
 		
 		  
-			<li><a href="/categories/iOS/" title="iOS">iOS<sup>1</sup></a></li>
+			<li><a href="/categories/iOS/" title="iOS">iOS<sup>2</sup></a></li>
 		  
 		
 		</ul>
@@ -190,11 +198,15 @@
 
   
 <div class="tagslist">
-	<p class="asidetitle">標簽</p>
+	<p class="asidetitle">Tags</p>
 		<ul class="clearfix">
 		
 			
 				<li><a href="/source/tags/IDE/" title="IDE">IDE<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/source/tags/Tools/" title="Tools">Tools<sup>1</sup></a></li>
 			
 		
 		</ul>
@@ -202,14 +214,14 @@
 
 
   <div class="linkslist">
-  <p class="asidetitle">友情鏈接</p>
+  <p class="asidetitle">Links</p>
     <ul>
         
     </ul>
 </div>
 
   <div class="rsspart">
-	<a href="/atom.xml" target="_blank" title="rss">RSS 訂閱</a>
+	<a href="/atom.xml" target="_blank" title="rss">RSS</a>
 </div>
 
 </aside>
@@ -422,7 +434,7 @@ var _hmt = _hmt || [];
 <!-- Totop Begin -->
 
 	<div id="totop">
-	<a title="返回頂部"><img src="/img/scrollup.png"/></a>
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
 	</div>
 	<script src="/js/totop.js"></script>
 
