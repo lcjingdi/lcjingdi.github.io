@@ -11,20 +11,20 @@
     
 
     
-    <meta name="description" content="介绍最近发现了公司有一款app在其中某几款iOS系统中崩溃率特别高：51.7%,9.2.1、18.6%,9.0.2、16.6%,9.1、11.7%,9.2、1.4%,7.1，经和同事排查发现可能是由于图片的问题造成的，特补了下关于图片的一些基础知识 基础知识图片分类： 位图 我们最常使用的的图片类型，主要包括png、gif、jpeg（jpg），其中png这种无损压缩的位图格式，由于支持索引、灰度、">
+    <meta name="description" content="介绍最近发现了公司有一款app在其中某几款iOS系统中崩溃率特别高：51.7%,9.2.1、18.6%,9.0.2、16.6%,9.1、11.7%,9.2、1.4%,7.1，经和同事排查发现可能是由于图片的问题造成的，特补了下关于图片的一些基础知识 基础知识图片分类：位图我们最常使用的的图片类型，主要包括png、gif、jpeg（jpg），其中png这种无损压缩的位图格式，由于支持索引、灰度、RG">
 <meta name="keywords" content="图片">
 <meta property="og:type" content="article">
 <meta property="og:title" content="图片格式不一致可能导致的问题分析">
 <meta property="og:url" content="http://melonshare.com/2017/09/07/图片格式不一致可能导致的问题分析/index.html">
 <meta property="og:site_name" content="lcjingdi的博客">
-<meta property="og:description" content="介绍最近发现了公司有一款app在其中某几款iOS系统中崩溃率特别高：51.7%,9.2.1、18.6%,9.0.2、16.6%,9.1、11.7%,9.2、1.4%,7.1，经和同事排查发现可能是由于图片的问题造成的，特补了下关于图片的一些基础知识 基础知识图片分类： 位图 我们最常使用的的图片类型，主要包括png、gif、jpeg（jpg），其中png这种无损压缩的位图格式，由于支持索引、灰度、">
+<meta property="og:description" content="介绍最近发现了公司有一款app在其中某几款iOS系统中崩溃率特别高：51.7%,9.2.1、18.6%,9.0.2、16.6%,9.1、11.7%,9.2、1.4%,7.1，经和同事排查发现可能是由于图片的问题造成的，特补了下关于图片的一些基础知识 基础知识图片分类：位图我们最常使用的的图片类型，主要包括png、gif、jpeg（jpg），其中png这种无损压缩的位图格式，由于支持索引、灰度、RG">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://melonshare.com/2017/09/07/images/图片格式不一致可能导致的问题分析1.png">
-<meta property="og:updated_time" content="2017-09-13T09:09:21.000Z">
+<meta property="og:image" content="http://melonshare.com/images/图片格式不一致可能导致的问题分析1.png">
+<meta property="og:updated_time" content="2017-09-13T09:33:21.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="图片格式不一致可能导致的问题分析">
-<meta name="twitter:description" content="介绍最近发现了公司有一款app在其中某几款iOS系统中崩溃率特别高：51.7%,9.2.1、18.6%,9.0.2、16.6%,9.1、11.7%,9.2、1.4%,7.1，经和同事排查发现可能是由于图片的问题造成的，特补了下关于图片的一些基础知识 基础知识图片分类： 位图 我们最常使用的的图片类型，主要包括png、gif、jpeg（jpg），其中png这种无损压缩的位图格式，由于支持索引、灰度、">
-<meta name="twitter:image" content="http://melonshare.com/2017/09/07/images/图片格式不一致可能导致的问题分析1.png">
+<meta name="twitter:description" content="介绍最近发现了公司有一款app在其中某几款iOS系统中崩溃率特别高：51.7%,9.2.1、18.6%,9.0.2、16.6%,9.1、11.7%,9.2、1.4%,7.1，经和同事排查发现可能是由于图片的问题造成的，特补了下关于图片的一些基础知识 基础知识图片分类：位图我们最常使用的的图片类型，主要包括png、gif、jpeg（jpg），其中png这种无损压缩的位图格式，由于支持索引、灰度、RG">
+<meta name="twitter:image" content="http://melonshare.com/images/图片格式不一致可能导致的问题分析1.png">
 
     
     
@@ -98,25 +98,17 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">Contents</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#介绍"><span class="toc-number">1.</span> <span class="toc-text">介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#基础知识"><span class="toc-number">1.1.</span> <span class="toc-text">基础知识</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#图片分类："><span class="toc-number">1.1.0.1.</span> <span class="toc-text">图片分类：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考链接"><span class="toc-number">1.2.</span> <span class="toc-text">参考链接</span></a></li></ol></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#介绍"><span class="toc-number">1.</span> <span class="toc-text">介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#基础知识"><span class="toc-number">1.1.</span> <span class="toc-text">基础知识</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#图片分类："><span class="toc-number">1.1.0.1.</span> <span class="toc-text">图片分类：</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#位图"><span class="toc-number">1.1.0.1.1.</span> <span class="toc-text">位图</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#矢量图"><span class="toc-number">1.1.0.1.2.</span> <span class="toc-text">矢量图</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#原因分析"><span class="toc-number">1.1.0.2.</span> <span class="toc-text">原因分析</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考链接"><span class="toc-number">1.2.</span> <span class="toc-text">参考链接</span></a></li></ol></li></ol>
 		
 		</div>
 		
 		<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>最近发现了公司有一款app在其中某几款iOS系统中崩溃率特别高：<em>51.7%,9.2.1、18.6%,9.0.2、16.6%,9.1、11.7%,9.2、1.4%,7.1</em>，经和同事排查发现可能是由于图片的问题造成的，特补了下关于图片的一些<strong>基础知识</strong></p>
-<h2 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h2><h4 id="图片分类："><a href="#图片分类：" class="headerlink" title="图片分类："></a>图片分类：</h4><ol>
-<li><p><strong>位图</strong></p>
-<p>我们最常使用的的图片类型，主要包括png、gif、jpeg（jpg），其中png这种无损压缩的位图格式，由于支持索引、灰度、RGB颜色方案、Alpha通道，基本上取代了gif在项目中使用，而且不需要专利许可</p>
+<h2 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h2><h4 id="图片分类："><a href="#图片分类：" class="headerlink" title="图片分类："></a>图片分类：</h4><h5 id="位图"><a href="#位图" class="headerlink" title="位图"></a>位图</h5><p>我们最常使用的的图片类型，主要包括png、gif、jpeg（jpg），其中png这种无损压缩的位图格式，由于支持索引、灰度、RGB颜色方案、Alpha通道，基本上取代了gif在项目中使用，而且不需要专利许可</p>
 <p>根据<code>位图深度</code>，可以分为1、4、8、16、24、32位每个像素的位数越多，颜色越逼真，数据量越大，例如：位深1的又叫二值位图，位深8的图像有2<sup>8</sup>（即256）个可能的值</p>
 <p>根据<code>RGB</code>来说，由于有3个颜色通道，一个颜色通道有8位，那么意味着每个通道有256个可能的值，3个通道就是1600万个可能的颜色值，有时，8bit／通道（8bpc\BITS PER CHANNEL）称为<code>24位图像</code>，</p>
 <p>PNG：PNG is Not GIF的简称</p>
-</li>
-</ol>
-<ol>
-<li><p><strong>矢量图</strong></p>
-<p>适合于与设备无关的简单或者合成的制图或者不需要实现真实感的场合</p>
-</li>
-</ol>
-<p>目前项目中功能主要是用了png的图片，而根据崩溃反应的问题，对照网上的解决方法可能是由于图片格式问题，目前出现的崩溃问题，这些问题崩溃的界面都不一样，手上暂时没有这几个系统的设备，但是通过网上的一些方法（具体步骤详见参考链接），发现崩溃的软件应用中打包的图片内容和其他不一样，具体如下：</p>
+<h5 id="矢量图"><a href="#矢量图" class="headerlink" title="矢量图"></a>矢量图</h5><p>适合于与设备无关的简单或者合成的制图或者不需要实现真实感的场合</p>
+<h4 id="原因分析"><a href="#原因分析" class="headerlink" title="原因分析"></a>原因分析</h4><p>目前项目中功能主要是用了png的图片，而根据崩溃反应的问题，对照网上的解决方法可能是由于图片格式问题，目前出现的崩溃问题，这些问题崩溃的界面都不一样，手上暂时没有这几个系统的设备，但是通过网上的一些方法（具体步骤详见参考链接），发现崩溃的软件应用中打包的图片内容和其他不一样，具体如下：</p>
 <p><strong>正常的图片显示内容</strong></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  &quot;PixelWidth&quot; : 220,</div><div class="line">  &quot;Compression&quot; : &quot;zip&quot;,</div><div class="line">  &quot;SizeOnDisk&quot; : 2765,</div><div class="line">  &quot;PixelHeight&quot; : 68,</div><div class="line">  &quot;Name&quot; : &quot;welcome_click_hei&quot;,</div><div class="line">  &quot;RenditionName&quot; : &quot;welcome_click_hei.png&quot;,</div><div class="line">  &quot;ColorModel&quot; : &quot;RGB&quot;,</div><div class="line">  &quot;Scale&quot; : 1,</div><div class="line">  &quot;Idiom&quot; : &quot;universal&quot;,</div><div class="line">  &quot;Encoding&quot; : &quot;ARGB&quot;,</div><div class="line">  &quot;BitsPerComponent&quot; : 8,</div><div class="line">  &quot;Image Type&quot; : &quot;kCoreThemeOnePartScale&quot;,</div><div class="line">  &quot;Colorspace&quot; : &quot;srgb&quot;,</div><div class="line">  &quot;Opaque&quot; : false,</div><div class="line">  &quot;AssetType&quot; : &quot;Image&quot;</div><div class="line">&#125;,</div><div class="line">用command+i看 colorsync为空</div></pre></td></tr></table></figure>
 <p><strong>可能有问题的图片显示如下</strong></p>
@@ -153,7 +145,7 @@
 <p>如果你的图片资源文件里有16位图或者图片显示模式为P3，并且Deployment Target是iOS9.3以下的就会出现这个问题。如果你的App需要支持wide color functionality<a href="https://developer.apple.com/library/content/releasenotes/General/WhatsNewIniOS/Articles/iOS10.html" target="_blank" rel="external">Wide ColorIniOS10</a>，那你就必须设置Deployment Target为iOS9.3以上。如果你的APP不需要支持wide color functionality并且你希望兼容iOS老版本，那么你需要将所有16-bit or P3 assets的图片转换为8-bit sRGB assets</p>
 </blockquote>
 <p>再了解一下苹果支持的图片</p>
-<p><img src="../images/图片格式不一致可能导致的问题分析1.png" alt="123"></p>
+<p><img src="/images/图片格式不一致可能导致的问题分析1.png" alt="123"></p>
 <p><strong>可以看出iOS最多支持16bpc RGB</strong> </p>
 <p>以后看来在UI给图的时候需要好好看一下格式问题</p>
 <h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul>
@@ -229,7 +221,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">Contents</strong>
  
- <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#介绍"><span class="toc-number">1.</span> <span class="toc-text">介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#基础知识"><span class="toc-number">1.1.</span> <span class="toc-text">基础知识</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#图片分类："><span class="toc-number">1.1.0.1.</span> <span class="toc-text">图片分类：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考链接"><span class="toc-number">1.2.</span> <span class="toc-text">参考链接</span></a></li></ol></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#介绍"><span class="toc-number">1.</span> <span class="toc-text">介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#基础知识"><span class="toc-number">1.1.</span> <span class="toc-text">基础知识</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#图片分类："><span class="toc-number">1.1.0.1.</span> <span class="toc-text">图片分类：</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#位图"><span class="toc-number">1.1.0.1.1.</span> <span class="toc-text">位图</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#矢量图"><span class="toc-number">1.1.0.1.2.</span> <span class="toc-text">矢量图</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#原因分析"><span class="toc-number">1.1.0.2.</span> <span class="toc-text">原因分析</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考链接"><span class="toc-number">1.2.</span> <span class="toc-text">参考链接</span></a></li></ol></li></ol>
  
   </div>
 
