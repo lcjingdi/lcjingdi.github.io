@@ -1,0 +1,523 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>图片格式不一致可能导致的问题分析 | lcjingdi的博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="lcjingdi">
+    
+
+    
+    <meta name="description" content="介绍最近发现了公司有一款app在其中某几款iOS系统中崩溃率特别高：51.7%,9.2.1、18.6%,9.0.2、16.6%,9.1、11.7%,9.2、1.4%,7.1，经和同事排查发现可能是由于图片的问题造成的，特补了下关于图片的一些基础知识 基础知识图片分类： 位图 我们最常使用的的图片类型，主要包括png、gif、jpeg（jpg），其中png这种无损压缩的位图格式，由于支持索引、灰度、">
+<meta name="keywords" content="图片">
+<meta property="og:type" content="article">
+<meta property="og:title" content="图片格式不一致可能导致的问题分析">
+<meta property="og:url" content="http://melonshare.com/2017/09/07/图片格式不一致可能导致的问题分析/index.html">
+<meta property="og:site_name" content="lcjingdi的博客">
+<meta property="og:description" content="介绍最近发现了公司有一款app在其中某几款iOS系统中崩溃率特别高：51.7%,9.2.1、18.6%,9.0.2、16.6%,9.1、11.7%,9.2、1.4%,7.1，经和同事排查发现可能是由于图片的问题造成的，特补了下关于图片的一些基础知识 基础知识图片分类： 位图 我们最常使用的的图片类型，主要包括png、gif、jpeg（jpg），其中png这种无损压缩的位图格式，由于支持索引、灰度、">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://melonshare.com/2017/09/07/images/图片格式不一致可能导致的问题分析1.png">
+<meta property="og:updated_time" content="2017-09-13T09:09:21.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="图片格式不一致可能导致的问题分析">
+<meta name="twitter:description" content="介绍最近发现了公司有一款app在其中某几款iOS系统中崩溃率特别高：51.7%,9.2.1、18.6%,9.0.2、16.6%,9.1、11.7%,9.2、1.4%,7.1，经和同事排查发现可能是由于图片的问题造成的，特补了下关于图片的一些基础知识 基础知识图片分类： 位图 我们最常使用的的图片类型，主要包括png、gif、jpeg（jpg），其中png这种无损压缩的位图格式，由于支持索引、灰度、">
+<meta name="twitter:image" content="http://melonshare.com/2017/09/07/images/图片格式不一致可能导致的问题分析1.png">
+
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="lcjingdi的博客">lcjingdi的博客</a></h1>
+				<h2 class="blog-motto">记录自己学习的点点滴滴</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">主页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/tags">标签</a></li>
+					
+						<li><a href="/categories">分类</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="hidden" name="q" value="site:melonshare.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2017/09/07/图片格式不一致可能导致的问题分析/" title="图片格式不一致可能导致的问题分析" itemprop="url">图片格式不一致可能导致的问题分析</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="lcjingdi" target="_blank" itemprop="author">lcjingdi</a>
+		
+  <p class="article-time">
+    <time datetime="2017-09-07T07:28:50.000Z" itemprop="datePublished"> Published 2017-09-07</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">Contents</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#介绍"><span class="toc-number">1.</span> <span class="toc-text">介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#基础知识"><span class="toc-number">1.1.</span> <span class="toc-text">基础知识</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#图片分类："><span class="toc-number">1.1.0.1.</span> <span class="toc-text">图片分类：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考链接"><span class="toc-number">1.2.</span> <span class="toc-text">参考链接</span></a></li></ol></li></ol>
+		
+		</div>
+		
+		<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>最近发现了公司有一款app在其中某几款iOS系统中崩溃率特别高：<em>51.7%,9.2.1、18.6%,9.0.2、16.6%,9.1、11.7%,9.2、1.4%,7.1</em>，经和同事排查发现可能是由于图片的问题造成的，特补了下关于图片的一些<strong>基础知识</strong></p>
+<h2 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h2><h4 id="图片分类："><a href="#图片分类：" class="headerlink" title="图片分类："></a>图片分类：</h4><ol>
+<li><p><strong>位图</strong></p>
+<p>我们最常使用的的图片类型，主要包括png、gif、jpeg（jpg），其中png这种无损压缩的位图格式，由于支持索引、灰度、RGB颜色方案、Alpha通道，基本上取代了gif在项目中使用，而且不需要专利许可</p>
+<p>根据<code>位图深度</code>，可以分为1、4、8、16、24、32位每个像素的位数越多，颜色越逼真，数据量越大，例如：位深1的又叫二值位图，位深8的图像有2<sup>8</sup>（即256）个可能的值</p>
+<p>根据<code>RGB</code>来说，由于有3个颜色通道，一个颜色通道有8位，那么意味着每个通道有256个可能的值，3个通道就是1600万个可能的颜色值，有时，8bit／通道（8bpc\BITS PER CHANNEL）称为<code>24位图像</code>，</p>
+<p>PNG：PNG is Not GIF的简称</p>
+</li>
+</ol>
+<ol>
+<li><p><strong>矢量图</strong></p>
+<p>适合于与设备无关的简单或者合成的制图或者不需要实现真实感的场合</p>
+</li>
+</ol>
+<p>目前项目中功能主要是用了png的图片，而根据崩溃反应的问题，对照网上的解决方法可能是由于图片格式问题，目前出现的崩溃问题，这些问题崩溃的界面都不一样，手上暂时没有这几个系统的设备，但是通过网上的一些方法（具体步骤详见参考链接），发现崩溃的软件应用中打包的图片内容和其他不一样，具体如下：</p>
+<p><strong>正常的图片显示内容</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  &quot;PixelWidth&quot; : 220,</div><div class="line">  &quot;Compression&quot; : &quot;zip&quot;,</div><div class="line">  &quot;SizeOnDisk&quot; : 2765,</div><div class="line">  &quot;PixelHeight&quot; : 68,</div><div class="line">  &quot;Name&quot; : &quot;welcome_click_hei&quot;,</div><div class="line">  &quot;RenditionName&quot; : &quot;welcome_click_hei.png&quot;,</div><div class="line">  &quot;ColorModel&quot; : &quot;RGB&quot;,</div><div class="line">  &quot;Scale&quot; : 1,</div><div class="line">  &quot;Idiom&quot; : &quot;universal&quot;,</div><div class="line">  &quot;Encoding&quot; : &quot;ARGB&quot;,</div><div class="line">  &quot;BitsPerComponent&quot; : 8,</div><div class="line">  &quot;Image Type&quot; : &quot;kCoreThemeOnePartScale&quot;,</div><div class="line">  &quot;Colorspace&quot; : &quot;srgb&quot;,</div><div class="line">  &quot;Opaque&quot; : false,</div><div class="line">  &quot;AssetType&quot; : &quot;Image&quot;</div><div class="line">&#125;,</div><div class="line">用command+i看 colorsync为空</div></pre></td></tr></table></figure>
+<p><strong>可能有问题的图片显示如下</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  &quot;Opaque&quot; : false,</div><div class="line">  &quot;Compression&quot; : &quot;zip&quot;,</div><div class="line">  &quot;SizeOnDisk&quot; : 419,</div><div class="line">  &quot;PixelHeight&quot; : 36,</div><div class="line">  &quot;Name&quot; : &quot;share_qrcode_rightUp&quot;,</div><div class="line">  &quot;RenditionName&quot; : &quot;share_qrcode_rightUp@2x.png&quot;,</div><div class="line">  &quot;ColorModel&quot; : &quot;RGB&quot;,</div><div class="line">  &quot;Scale&quot; : 2,</div><div class="line">  &quot;Idiom&quot; : &quot;universal&quot;,</div><div class="line">  &quot;DisplayGamut&quot; : &quot;P3&quot;,</div><div class="line">  &quot;Encoding&quot; : &quot;ARGB-16&quot;,</div><div class="line">  &quot;BitsPerComponent&quot; : 16,</div><div class="line">  &quot;Image Type&quot; : &quot;kCoreThemeOnePartScale&quot;,</div><div class="line">  &quot;Colorspace&quot; : &quot;extended SRB&quot;,</div><div class="line">  &quot;AssetType&quot; : &quot;Image&quot;,</div><div class="line">  &quot;PixelWidth&quot; : 36</div><div class="line">&#125;,</div><div class="line">用command+i看 colorsync为Adobe RGB（1998）</div></pre></td></tr></table></figure>
+<p>对比后发现其中三项有差别：</p>
+<table>
+<thead>
+<tr>
+<th>差别内容</th>
+<th>正常图片</th>
+<th>疑似不正常图片</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DisplayGamut</td>
+<td>无</td>
+<td>P3</td>
+</tr>
+<tr>
+<td>Encoding</td>
+<td>ARGB</td>
+<td>ARGB-16</td>
+</tr>
+<tr>
+<td>Colorspace</td>
+<td>srgb</td>
+<td>extended SRB</td>
+</tr>
+</tbody>
+</table>
+<p>会不会是这三项不同导致崩溃呢？ </p>
+<blockquote>
+<p>如果你的图片资源文件里有16位图或者图片显示模式为P3，并且Deployment Target是iOS9.3以下的就会出现这个问题。如果你的App需要支持wide color functionality<a href="https://developer.apple.com/library/content/releasenotes/General/WhatsNewIniOS/Articles/iOS10.html" target="_blank" rel="external">Wide ColorIniOS10</a>，那你就必须设置Deployment Target为iOS9.3以上。如果你的APP不需要支持wide color functionality并且你希望兼容iOS老版本，那么你需要将所有16-bit or P3 assets的图片转换为8-bit sRGB assets</p>
+</blockquote>
+<p>再了解一下苹果支持的图片</p>
+<p><img src="../images/图片格式不一致可能导致的问题分析1.png" alt="123"></p>
+<p><strong>可以看出iOS最多支持16bpc RGB</strong> </p>
+<p>以后看来在UI给图的时候需要好好看一下格式问题</p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul>
+<li><a href="https://baike.baidu.com/item/%E5%9B%BE%E7%89%87%E6%A0%BC%E5%BC%8F" target="_blank" rel="external">图片格式</a></li>
+<li><a href="http://www.jianshu.com/p/b13e1e441116" target="_blank" rel="external">Xcode8打包上传错误ERROR ITMS-90682: “Invalid Bundle. The asset catalog at<em>*</em></a></li>
+<li><a href="https://forums.developer.apple.com/thread/60919?start=0&amp;tstart=0" target="_blank" rel="external">ITMS-90682: can’t contain 16-bit or P3 assets if the app supports iOS 8 or earlier</a></li>
+<li><a href="https://www.ianisme.com/ios/2409.html" target="_blank" rel="external">Xcode8的assets问题导致运行iOS8崩溃的解决方案</a></li>
+<li><a href="http://honglu.me/2016/09/02/%E4%B8%80%E5%BC%A0%E5%9B%BE%E7%89%87%E5%BC%95%E5%8F%91%E7%9A%84%E6%B7%B1%E6%80%9D/" target="_blank" rel="external">一张图片引发的深思</a></li>
+<li><a href="https://developer.apple.com/library/content/documentation/GraphicsImaging/Conceptual/drawingwithquartz2d/dq_context/dq_context.html" target="_blank" rel="external">Quartz 2D Programming Guide</a></li>
+<li><a href="http://www.cnblogs.com/xiangism/p/5311314.html" target="_blank" rel="external">常见图片格式详解</a></li>
+<li><a href="http://www.adobe.com/digitalimag/adobergb.html" target="_blank" rel="external">Adobe RGB (1998) color image encoding</a></li>
+</ul>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/iOS/">iOS</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/source/tags/图片/">图片</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://melonshare.com/2017/09/07/图片格式不一致可能导致的问题分析/" data-title="图片格式不一致可能导致的问题分析 | lcjingdi的博客" data-tsina="" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2017/09/07/Xcode9运行iOS7真机调试/" title="Xcode9运行iOS7真机调试">
+  <strong>上一篇：</strong><br/>
+  <span>
+  Xcode9运行iOS7真机调试</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2017/09/06/github搭建博客/"  title="Github + Hexo 构建个人博客">
+ <strong>下一篇：</strong><br/> 
+ <span>Github + Hexo 构建个人博客
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">Contents</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#介绍"><span class="toc-number">1.</span> <span class="toc-text">介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#基础知识"><span class="toc-number">1.1.</span> <span class="toc-text">基础知识</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#图片分类："><span class="toc-number">1.1.0.1.</span> <span class="toc-text">图片分类：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考链接"><span class="toc-number">1.2.</span> <span class="toc-text">参考链接</span></a></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">Categories</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/iOS/" title="iOS">iOS<sup>4</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">Tags</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/source/tags/IDE/" title="IDE">IDE<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/source/tags/bug/" title="bug">bug<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/source/tags/Tools/" title="Tools">Tools<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/source/tags/图片/" title="图片">图片<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	
+	<section class="info">
+		<p> 个人介绍 <br/>
+			</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		<a href="https://github.com/lcjingdi" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		<a href="mailto:lcjingdi@gmail.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2017 
+		
+		<a href="/about" target="_blank" title="lcjingdi">lcjingdi</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-106054519-1', 'melonshare.com');  
+ga('send', 'pageview');
+</script>
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
