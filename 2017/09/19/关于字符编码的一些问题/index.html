@@ -1,0 +1,2751 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>关于字符编码的一些问题 | lcjingdi的博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="lcjingdi">
+    
+
+    
+    <meta name="description" content="前言：项目中遇到了一个比较奇怪的问题：通讯录传回来的手机号码，用[phone stringByReplacingOccurrencesOfString:@&amp;quot; &amp;quot; withString:@&amp;quot;&amp;quot;];去不掉空格，于是打印空格的ascii发现是160，space的ascii不应该是32么？ 于是就补了下关于编码格式的知识 编码格式ASCII简单解释： America">
+<meta name="keywords" content="iOS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="关于字符编码的一些问题">
+<meta property="og:url" content="http://melonshare.com/2017/09/19/关于字符编码的一些问题/index.html">
+<meta property="og:site_name" content="lcjingdi的博客">
+<meta property="og:description" content="前言：项目中遇到了一个比较奇怪的问题：通讯录传回来的手机号码，用[phone stringByReplacingOccurrencesOfString:@&amp;quot; &amp;quot; withString:@&amp;quot;&amp;quot;];去不掉空格，于是打印空格的ascii发现是160，space的ascii不应该是32么？ 于是就补了下关于编码格式的知识 编码格式ASCII简单解释： America">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2017-09-19T08:49:28.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="关于字符编码的一些问题">
+<meta name="twitter:description" content="前言：项目中遇到了一个比较奇怪的问题：通讯录传回来的手机号码，用[phone stringByReplacingOccurrencesOfString:@&amp;quot; &amp;quot; withString:@&amp;quot;&amp;quot;];去不掉空格，于是打印空格的ascii发现是160，space的ascii不应该是32么？ 于是就补了下关于编码格式的知识 编码格式ASCII简单解释： America">
+
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="lcjingdi的博客">lcjingdi的博客</a></h1>
+				<h2 class="blog-motto">记录自己学习的点点滴滴</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">主页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/tags">标签</a></li>
+					
+						<li><a href="/categories">分类</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:melonshare.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2017/09/19/关于字符编码的一些问题/" title="关于字符编码的一些问题" itemprop="url">关于字符编码的一些问题</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="lcjingdi" target="_blank" itemprop="author">lcjingdi</a>
+		
+  <p class="article-time">
+    <time datetime="2017-09-18T16:00:00.000Z" itemprop="datePublished"> 发表于 2017-09-19</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言："><span class="toc-number">1.</span> <span class="toc-text">前言：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#编码格式"><span class="toc-number">2.</span> <span class="toc-text">编码格式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ASCII"><span class="toc-number">2.1.</span> <span class="toc-text">ASCII</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ASCII字符表构成"><span class="toc-number">2.2.</span> <span class="toc-text">ASCII字符表构成</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#ASCII控制符号"><span class="toc-number">2.2.0.1.</span> <span class="toc-text">ASCII控制符号</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#ASCII码可显示字符"><span class="toc-number">2.2.0.2.</span> <span class="toc-text">ASCII码可显示字符</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#扩展的-ASCII码表"><span class="toc-number">2.2.0.3.</span> <span class="toc-text">扩展的 ASCII码表</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#GB2312-GBK"><span class="toc-number">2.3.</span> <span class="toc-text">GB2312/GBK</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#UNICODE"><span class="toc-number">2.4.</span> <span class="toc-text">UNICODE</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#UTF-X"><span class="toc-number">2.5.</span> <span class="toc-text">UTF-X</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#160空格和32空格的问题"><span class="toc-number">3.</span> <span class="toc-text">160空格和32空格的问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考链接"><span class="toc-number">4.</span> <span class="toc-text">参考链接</span></a></li></ol>
+		
+		</div>
+		
+		<h2 id="前言："><a href="#前言：" class="headerlink" title="前言："></a>前言：</h2><p>项目中遇到了一个比较奇怪的问题：通讯录传回来的手机号码，用<code>[phone stringByReplacingOccurrencesOfString:@&quot; &quot; withString:@&quot;&quot;];</code>去不掉空格，于是打印空格的ascii发现是160，<code>space</code>的ascii不应该是32么？ 于是就补了下关于编码格式的知识</p>
+<h2 id="编码格式"><a href="#编码格式" class="headerlink" title="编码格式"></a>编码格式</h2><h3 id="ASCII"><a href="#ASCII" class="headerlink" title="ASCII"></a>ASCII</h3><p><em>简单解释：</em></p>
+<p><strong>A</strong>merican <strong>S</strong>tandard <strong>C</strong>ode for <strong>I</strong>nformation <strong>I</strong>nterchange，<strong>美国信息交换标准代码</strong></p>
+<p>一共128个字符，其中 <code>space</code>这个字符的ascii为32，也就是空格，一共只有7位128个可用的字符（33个控制字符和95个可显示字符）</p>
+<p>为了表示更多的欧洲常用字符，出现了<strong>ASCII 扩展字符集</strong>，使用<strong>8</strong>位来表示一个字符，一共256个字符，<strong>ASCII扩展字符集</strong>扩充出来的符号包括<strong>符号</strong>、<strong>计算符号</strong>、<strong>希腊字母</strong>、<strong>特殊的拉丁符号</strong>。</p>
+<blockquote>
+<p>注：</p>
+<p>在计算机的存储单元中，一个ASCII码值占一个字节(8个二进制位)，其最高位(b7)用作奇偶校验位。所谓奇偶校验，是指在代码传送过程中用来检验是否出现错误的一种方法，一般分奇校验和偶校验两种。奇校验规定：正确的代码一个字节中1的个数必须是奇数，若非奇数，则在最高位b7添1；偶校验规定：正确的代码一个字节中1的个数必须是偶数，若非偶数，则在最高位b7添1。 </p>
+</blockquote>
+<p>而从通讯录返回的stirng所用的空格是NBSP（Non-Breaking Space：用于编程和文字处理，以创建不能用单词换行的行中空格，主要用在HTML中，<code>&amp;nbsp;</code>）</p>
+<h3 id="ASCII字符表构成"><a href="#ASCII字符表构成" class="headerlink" title="ASCII字符表构成"></a>ASCII字符表构成</h3><p>第0～32号及第127号(共34个)是控制字符或通讯专用字符，如控制符：LF（换行）、CR（回车）、FF（换页）、DEL（删除）、BEL（振铃）等；通讯专用字符：SOH（文头）、EOT（文尾）、ACK（确认）等；</p>
+<p>第33～126号(共94个)是字符，其中第48～57号为0～9十个阿拉伯数字；65～90号为26个大写英文字母，97～122号为26个小写英文字母，其余为一些标点符号、运算符号等。</p>
+<h5 id="ASCII控制符号"><a href="#ASCII控制符号" class="headerlink" title="ASCII控制符号"></a>ASCII控制符号</h5><table>
+<thead>
+<tr>
+<th>二进制</th>
+<th>十进制</th>
+<th>十六进制</th>
+<th>缩写</th>
+<th>Unicode表示法</th>
+<th>脱出字符表示法</th>
+<th>名称／意义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0000 0000</td>
+<td>0</td>
+<td>00</td>
+<td>NUL</td>
+<td>␀</td>
+<td>^@</td>
+<td>空字符（Null）</td>
+</tr>
+<tr>
+<td>0000 0001</td>
+<td>1</td>
+<td>01</td>
+<td>SOH</td>
+<td>␁</td>
+<td>^A</td>
+<td>标题开始</td>
+</tr>
+<tr>
+<td>0000 0010</td>
+<td>2</td>
+<td>02</td>
+<td>STX</td>
+<td>␂</td>
+<td>^B</td>
+<td>本文开始</td>
+</tr>
+<tr>
+<td>0000 0011</td>
+<td>3</td>
+<td>03</td>
+<td>ETX</td>
+<td>␃</td>
+<td>^C</td>
+<td>本文结束</td>
+</tr>
+<tr>
+<td>0000 0100</td>
+<td>4</td>
+<td>04</td>
+<td>EOT</td>
+<td>␄</td>
+<td>^D</td>
+<td>传输结束</td>
+</tr>
+<tr>
+<td>0000 0101</td>
+<td>5</td>
+<td>05</td>
+<td>ENQ</td>
+<td>␅</td>
+<td>^E</td>
+<td>请求</td>
+</tr>
+<tr>
+<td>0000 0110</td>
+<td>6</td>
+<td>06</td>
+<td>ACK</td>
+<td>␆</td>
+<td>^F</td>
+<td>确认回应</td>
+</tr>
+<tr>
+<td>0000 0111</td>
+<td>7</td>
+<td>07</td>
+<td>BEL</td>
+<td>␇</td>
+<td>^G</td>
+<td>响铃</td>
+</tr>
+<tr>
+<td>0000 1000</td>
+<td>8</td>
+<td>08</td>
+<td>BS</td>
+<td>␈</td>
+<td>^H</td>
+<td>退格</td>
+</tr>
+<tr>
+<td>0000 1001</td>
+<td>9</td>
+<td>09</td>
+<td>HT</td>
+<td>␉</td>
+<td>^I</td>
+<td>水平定位符号</td>
+</tr>
+<tr>
+<td>0000 1010</td>
+<td>10</td>
+<td>0A</td>
+<td>LF</td>
+<td>␊</td>
+<td>^J</td>
+<td>换行键</td>
+</tr>
+<tr>
+<td>0000 1011</td>
+<td>11</td>
+<td>0B</td>
+<td>VT</td>
+<td>␋</td>
+<td>^K</td>
+<td>垂直定位符号</td>
+</tr>
+<tr>
+<td>0000 1100</td>
+<td>12</td>
+<td>0C</td>
+<td>FF</td>
+<td>␌</td>
+<td>^L</td>
+<td>换页键</td>
+</tr>
+<tr>
+<td>0000 1101</td>
+<td>13</td>
+<td>0D</td>
+<td>CR</td>
+<td>␍</td>
+<td>^M</td>
+<td>Enter键</td>
+</tr>
+<tr>
+<td>0000 1110</td>
+<td>14</td>
+<td>0E</td>
+<td>SO</td>
+<td>␎</td>
+<td>^N</td>
+<td>取消变换（Shift out）</td>
+</tr>
+<tr>
+<td>0000 1111</td>
+<td>15</td>
+<td>0F</td>
+<td>SI</td>
+<td>␏</td>
+<td>^O</td>
+<td>启用变换（Shift in）</td>
+</tr>
+<tr>
+<td>0001 0000</td>
+<td>16</td>
+<td>10</td>
+<td>DLE</td>
+<td>␐</td>
+<td>^P</td>
+<td>跳出数据通讯</td>
+</tr>
+<tr>
+<td>0001 0001</td>
+<td>17</td>
+<td>11</td>
+<td>DC1</td>
+<td>␑</td>
+<td>^Q</td>
+<td>设备控制一（XON 激活软件速度控制）</td>
+</tr>
+<tr>
+<td>0001 0010</td>
+<td>18</td>
+<td>12</td>
+<td>DC2</td>
+<td>␒</td>
+<td>^R</td>
+<td>设备控制二</td>
+</tr>
+<tr>
+<td>0001 0011</td>
+<td>19</td>
+<td>13</td>
+<td>DC3</td>
+<td>␓</td>
+<td>^S</td>
+<td>设备控制三（XOFF 停用软件速度控制）</td>
+</tr>
+<tr>
+<td>0001 0100</td>
+<td>20</td>
+<td>14</td>
+<td>DC4</td>
+<td>␔</td>
+<td>^T</td>
+<td>设备控制四</td>
+</tr>
+<tr>
+<td>0001 0101</td>
+<td>21</td>
+<td>15</td>
+<td>NAK</td>
+<td>␕</td>
+<td>^U</td>
+<td>确认失败回应</td>
+</tr>
+<tr>
+<td>0001 0110</td>
+<td>22</td>
+<td>16</td>
+<td>SYN</td>
+<td>␖</td>
+<td>^V</td>
+<td>同步用暂停</td>
+</tr>
+<tr>
+<td>0001 0111</td>
+<td>23</td>
+<td>17</td>
+<td>ETB</td>
+<td>␗</td>
+<td>^W</td>
+<td>区块传输结束</td>
+</tr>
+<tr>
+<td>0001 1000</td>
+<td>24</td>
+<td>18</td>
+<td>CAN</td>
+<td>␘</td>
+<td>^X</td>
+<td>取消</td>
+</tr>
+<tr>
+<td>0001 1001</td>
+<td>25</td>
+<td>19</td>
+<td>EM</td>
+<td>␙</td>
+<td>^Y</td>
+<td>连接介质中断</td>
+</tr>
+<tr>
+<td>0001 1010</td>
+<td>26</td>
+<td>1A</td>
+<td>SUB</td>
+<td>␚</td>
+<td>^Z</td>
+<td>替换</td>
+</tr>
+<tr>
+<td>0001 1011</td>
+<td>27</td>
+<td>1B</td>
+<td>ESC</td>
+<td>␛</td>
+<td>^[</td>
+<td>退出键</td>
+</tr>
+<tr>
+<td>0001 1100</td>
+<td>28</td>
+<td>1C</td>
+<td>FS</td>
+<td>␜</td>
+<td>^\</td>
+<td>文件分区符</td>
+</tr>
+<tr>
+<td>0001 1101</td>
+<td>29</td>
+<td>1D</td>
+<td>GS</td>
+<td>␝</td>
+<td>^]</td>
+<td>组群分隔符</td>
+</tr>
+<tr>
+<td>0001 1110</td>
+<td>30</td>
+<td>1E</td>
+<td>RS</td>
+<td>␞</td>
+<td>^^</td>
+<td>记录分隔符</td>
+</tr>
+<tr>
+<td>0001 1111</td>
+<td>31</td>
+<td>1F</td>
+<td>US</td>
+<td>␟</td>
+<td>^_</td>
+<td>单元分隔符</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0111 1111</td>
+<td>127</td>
+<td>7F</td>
+<td>DEL</td>
+<td>␡</td>
+<td>^?</td>
+<td>删除</td>
+</tr>
+</tbody>
+</table>
+<h5 id="ASCII码可显示字符"><a href="#ASCII码可显示字符" class="headerlink" title="ASCII码可显示字符"></a>ASCII码可显示字符</h5><table>
+<thead>
+<tr>
+<th>二进制</th>
+<th>十进制</th>
+<th>十六进制</th>
+<th>图形</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0010 0000</td>
+<td>32</td>
+<td>20</td>
+<td>（空格，␠）</td>
+</tr>
+<tr>
+<td>0010 0001</td>
+<td>33</td>
+<td>21</td>
+<td>!</td>
+</tr>
+<tr>
+<td>0010 0010</td>
+<td>34</td>
+<td>22</td>
+<td>“</td>
+</tr>
+<tr>
+<td>0010 0011</td>
+<td>35</td>
+<td>23</td>
+<td>#</td>
+</tr>
+<tr>
+<td>0010 0100</td>
+<td>36</td>
+<td>24</td>
+<td>$</td>
+</tr>
+<tr>
+<td>0010 0101</td>
+<td>37</td>
+<td>25</td>
+<td>%</td>
+</tr>
+<tr>
+<td>0010 0110</td>
+<td>38</td>
+<td>26</td>
+<td>&amp;</td>
+</tr>
+<tr>
+<td>0010 0111</td>
+<td>39</td>
+<td>27</td>
+<td>‘</td>
+</tr>
+<tr>
+<td>0010 1000</td>
+<td>40</td>
+<td>28</td>
+<td>(</td>
+</tr>
+<tr>
+<td>0010 1001</td>
+<td>41</td>
+<td>29</td>
+<td>)</td>
+</tr>
+<tr>
+<td>0010 1010</td>
+<td>42</td>
+<td>2A</td>
+<td>*</td>
+</tr>
+<tr>
+<td>0010 1011</td>
+<td>43</td>
+<td>2B</td>
+<td>+</td>
+</tr>
+<tr>
+<td>0010 1100</td>
+<td>44</td>
+<td>2C</td>
+<td>,</td>
+</tr>
+<tr>
+<td>0010 1101</td>
+<td>45</td>
+<td>2D</td>
+<td>-</td>
+</tr>
+<tr>
+<td>0010 1110</td>
+<td>46</td>
+<td>2E</td>
+<td>.</td>
+</tr>
+<tr>
+<td>0010 1111</td>
+<td>47</td>
+<td>2F</td>
+<td>/</td>
+</tr>
+<tr>
+<td>0011 0000</td>
+<td>48</td>
+<td>30</td>
+<td>0</td>
+</tr>
+<tr>
+<td>0011 0001</td>
+<td>49</td>
+<td>31</td>
+<td>1</td>
+</tr>
+<tr>
+<td>0011 0010</td>
+<td>50</td>
+<td>32</td>
+<td>2</td>
+</tr>
+<tr>
+<td>0011 0011</td>
+<td>51</td>
+<td>33</td>
+<td>3</td>
+</tr>
+<tr>
+<td>0011 0100</td>
+<td>52</td>
+<td>34</td>
+<td>4</td>
+</tr>
+<tr>
+<td>0011 0101</td>
+<td>53</td>
+<td>35</td>
+<td>5</td>
+</tr>
+<tr>
+<td>0011 0110</td>
+<td>54</td>
+<td>36</td>
+<td>6</td>
+</tr>
+<tr>
+<td>0011 0111</td>
+<td>55</td>
+<td>37</td>
+<td>7</td>
+</tr>
+<tr>
+<td>0011 1000</td>
+<td>56</td>
+<td>38</td>
+<td>8</td>
+</tr>
+<tr>
+<td>0011 1001</td>
+<td>57</td>
+<td>39</td>
+<td>9</td>
+</tr>
+<tr>
+<td>0011 1010</td>
+<td>58</td>
+<td>3A</td>
+<td>:</td>
+</tr>
+<tr>
+<td>0011 1011</td>
+<td>59</td>
+<td>3B</td>
+<td>;</td>
+</tr>
+<tr>
+<td>0011 1100</td>
+<td>60</td>
+<td>3C</td>
+<td>&lt;</td>
+</tr>
+<tr>
+<td>0011 1101</td>
+<td>61</td>
+<td>3D</td>
+<td>=</td>
+</tr>
+<tr>
+<td>0011 1110</td>
+<td>62</td>
+<td>3E</td>
+<td>&gt;</td>
+</tr>
+<tr>
+<td>0011 1111</td>
+<td>63</td>
+<td>3F</td>
+<td>?</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>二进制</th>
+<th>十进制</th>
+<th>十六进制</th>
+<th>图形</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0100 0000</td>
+<td>64</td>
+<td>40</td>
+<td><a href="http://doc.chacuo.net/wiki/@" target="_blank" rel="external">@</a></td>
+</tr>
+<tr>
+<td>0100 0001</td>
+<td>65</td>
+<td>41</td>
+<td>A</td>
+</tr>
+<tr>
+<td>0100 0010</td>
+<td>66</td>
+<td>42</td>
+<td>B</td>
+</tr>
+<tr>
+<td>0100 0011</td>
+<td>67</td>
+<td>43</td>
+<td>C</td>
+</tr>
+<tr>
+<td>0100 0100</td>
+<td>68</td>
+<td>44</td>
+<td>D</td>
+</tr>
+<tr>
+<td>0100 0101</td>
+<td>69</td>
+<td>45</td>
+<td>E</td>
+</tr>
+<tr>
+<td>0100 0110</td>
+<td>70</td>
+<td>46</td>
+<td>F</td>
+</tr>
+<tr>
+<td>0100 0111</td>
+<td>71</td>
+<td>47</td>
+<td>G</td>
+</tr>
+<tr>
+<td>0100 1000</td>
+<td>72</td>
+<td>48</td>
+<td>H</td>
+</tr>
+<tr>
+<td>0100 1001</td>
+<td>73</td>
+<td>49</td>
+<td>I</td>
+</tr>
+<tr>
+<td>0100 1010</td>
+<td>74</td>
+<td>4A</td>
+<td>J</td>
+</tr>
+<tr>
+<td>0100 1011</td>
+<td>75</td>
+<td>4B</td>
+<td>K</td>
+</tr>
+<tr>
+<td>0100 1100</td>
+<td>76</td>
+<td>4C</td>
+<td>L</td>
+</tr>
+<tr>
+<td>0100 1101</td>
+<td>77</td>
+<td>4D</td>
+<td>M</td>
+</tr>
+<tr>
+<td>0100 1110</td>
+<td>78</td>
+<td>4E</td>
+<td>N</td>
+</tr>
+<tr>
+<td>0100 1111</td>
+<td>79</td>
+<td>4F</td>
+<td>O</td>
+</tr>
+<tr>
+<td>0101 0000</td>
+<td>80</td>
+<td>50</td>
+<td>P</td>
+</tr>
+<tr>
+<td>0101 0001</td>
+<td>81</td>
+<td>51</td>
+<td>Q</td>
+</tr>
+<tr>
+<td>0101 0010</td>
+<td>82</td>
+<td>52</td>
+<td>R</td>
+</tr>
+<tr>
+<td>0101 0011</td>
+<td>83</td>
+<td>53</td>
+<td>S</td>
+</tr>
+<tr>
+<td>0101 0100</td>
+<td>84</td>
+<td>54</td>
+<td>T</td>
+</tr>
+<tr>
+<td>0101 0101</td>
+<td>85</td>
+<td>55</td>
+<td>U</td>
+</tr>
+<tr>
+<td>0101 0110</td>
+<td>86</td>
+<td>56</td>
+<td>V</td>
+</tr>
+<tr>
+<td>0101 0111</td>
+<td>87</td>
+<td>57</td>
+<td>W</td>
+</tr>
+<tr>
+<td>0101 1000</td>
+<td>88</td>
+<td>58</td>
+<td>X</td>
+</tr>
+<tr>
+<td>0101 1001</td>
+<td>89</td>
+<td>59</td>
+<td>Y</td>
+</tr>
+<tr>
+<td>0101 1010</td>
+<td>90</td>
+<td>5A</td>
+<td>Z</td>
+</tr>
+<tr>
+<td>0101 1011</td>
+<td>91</td>
+<td>5B</td>
+<td>[</td>
+</tr>
+<tr>
+<td>0101 1100</td>
+<td>92</td>
+<td>5C</td>
+<td>\</td>
+</tr>
+<tr>
+<td>0101 1101</td>
+<td>93</td>
+<td>5D</td>
+<td>]</td>
+</tr>
+<tr>
+<td>0101 1110</td>
+<td>94</td>
+<td>5E</td>
+<td>^</td>
+</tr>
+<tr>
+<td>0101 1111</td>
+<td>95</td>
+<td>5F</td>
+<td>_</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>二进制</th>
+<th>十进制</th>
+<th>十六进制</th>
+<th>图形</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0110 0000</td>
+<td>96</td>
+<td>60</td>
+<td>`</td>
+</tr>
+<tr>
+<td>0110 0001</td>
+<td>97</td>
+<td>61</td>
+<td>a</td>
+</tr>
+<tr>
+<td>0110 0010</td>
+<td>98</td>
+<td>62</td>
+<td>b</td>
+</tr>
+<tr>
+<td>0110 0011</td>
+<td>99</td>
+<td>63</td>
+<td>c</td>
+</tr>
+<tr>
+<td>0110 0100</td>
+<td>100</td>
+<td>64</td>
+<td>d</td>
+</tr>
+<tr>
+<td>0110 0101</td>
+<td>101</td>
+<td>65</td>
+<td>e</td>
+</tr>
+<tr>
+<td>0110 0110</td>
+<td>102</td>
+<td>66</td>
+<td>f</td>
+</tr>
+<tr>
+<td>0110 0111</td>
+<td>103</td>
+<td>67</td>
+<td>g</td>
+</tr>
+<tr>
+<td>0110 1000</td>
+<td>104</td>
+<td>68</td>
+<td>h</td>
+</tr>
+<tr>
+<td>0110 1001</td>
+<td>105</td>
+<td>69</td>
+<td>i</td>
+</tr>
+<tr>
+<td>0110 1010</td>
+<td>106</td>
+<td>6A</td>
+<td>j</td>
+</tr>
+<tr>
+<td>0110 1011</td>
+<td>107</td>
+<td>6B</td>
+<td>k</td>
+</tr>
+<tr>
+<td>0110 1100</td>
+<td>108</td>
+<td>6C</td>
+<td>l</td>
+</tr>
+<tr>
+<td>0110 1101</td>
+<td>109</td>
+<td>6D</td>
+<td>m</td>
+</tr>
+<tr>
+<td>0110 1110</td>
+<td>110</td>
+<td>6E</td>
+<td>n</td>
+</tr>
+<tr>
+<td>0110 1111</td>
+<td>111</td>
+<td>6F</td>
+<td>o</td>
+</tr>
+<tr>
+<td>0111 0000</td>
+<td>112</td>
+<td>70</td>
+<td>p</td>
+</tr>
+<tr>
+<td>0111 0001</td>
+<td>113</td>
+<td>71</td>
+<td>q</td>
+</tr>
+<tr>
+<td>0111 0010</td>
+<td>114</td>
+<td>72</td>
+<td>r</td>
+</tr>
+<tr>
+<td>0111 0011</td>
+<td>115</td>
+<td>73</td>
+<td>s</td>
+</tr>
+<tr>
+<td>0111 0100</td>
+<td>116</td>
+<td>74</td>
+<td>t</td>
+</tr>
+<tr>
+<td>0111 0101</td>
+<td>117</td>
+<td>75</td>
+<td>u</td>
+</tr>
+<tr>
+<td>0111 0110</td>
+<td>118</td>
+<td>76</td>
+<td>v</td>
+</tr>
+<tr>
+<td>0111 0111</td>
+<td>119</td>
+<td>77</td>
+<td>w</td>
+</tr>
+<tr>
+<td>0111 1000</td>
+<td>120</td>
+<td>78</td>
+<td>x</td>
+</tr>
+<tr>
+<td>0111 1001</td>
+<td>121</td>
+<td>79</td>
+<td>y</td>
+</tr>
+<tr>
+<td>0111 1010</td>
+<td>122</td>
+<td>7A</td>
+<td>z</td>
+</tr>
+<tr>
+<td>0111 1011</td>
+<td>123</td>
+<td>7B</td>
+<td>{</td>
+</tr>
+<tr>
+<td>0111 1100</td>
+<td>124</td>
+<td>7C</td>
+<td>\</td>
+<td></td>
+</tr>
+<tr>
+<td>0111 1101</td>
+<td>125</td>
+<td>7D</td>
+<td>}</td>
+</tr>
+<tr>
+<td>0111 1110</td>
+<td>126</td>
+<td>7E</td>
+<td>~</td>
+</tr>
+</tbody>
+</table>
+<h5 id="扩展的-ASCII码表"><a href="#扩展的-ASCII码表" class="headerlink" title="扩展的 ASCII码表"></a>扩展的 ASCII码表</h5><table>
+<thead>
+<tr>
+<th><strong>DEC</strong></th>
+<th><strong>OCT</strong></th>
+<th><strong>HEX</strong></th>
+<th><strong>BIN</strong></th>
+<th><strong>Symbol</strong></th>
+<th><strong>HTML Number</strong></th>
+<th><strong>HTML Name</strong></th>
+<th><strong>Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>128</td>
+<td>200</td>
+<td>80</td>
+<td>10000000</td>
+<td>€</td>
+<td>&#128;</td>
+<td>&euro;</td>
+<td>Euro sign</td>
+</tr>
+<tr>
+<td>129</td>
+<td>201</td>
+<td>81</td>
+<td>10000001</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>130</td>
+<td>202</td>
+<td>82</td>
+<td>10000010</td>
+<td>‚</td>
+<td>&#130;</td>
+<td>&sbquo;</td>
+<td>Single low-9 quotation mark</td>
+</tr>
+<tr>
+<td>131</td>
+<td>203</td>
+<td>83</td>
+<td>10000011</td>
+<td>ƒ</td>
+<td>&#131;</td>
+<td>&fnof;</td>
+<td>Latin small letter f with hook</td>
+</tr>
+<tr>
+<td>132</td>
+<td>204</td>
+<td>84</td>
+<td>10000100</td>
+<td>„</td>
+<td>&#132;</td>
+<td>&bdquo;</td>
+<td>Double low-9 quotation mark</td>
+</tr>
+<tr>
+<td>133</td>
+<td>205</td>
+<td>85</td>
+<td>10000101</td>
+<td>…</td>
+<td>&#133;</td>
+<td>&hellip;</td>
+<td>Horizontal ellipsis</td>
+</tr>
+<tr>
+<td>134</td>
+<td>206</td>
+<td>86</td>
+<td>10000110</td>
+<td>†</td>
+<td>&#134;</td>
+<td>&dagger;</td>
+<td>Dagger</td>
+</tr>
+<tr>
+<td>135</td>
+<td>207</td>
+<td>87</td>
+<td>10000111</td>
+<td>‡</td>
+<td>&#135;</td>
+<td>&Dagger;</td>
+<td>Double dagger</td>
+</tr>
+<tr>
+<td>136</td>
+<td>210</td>
+<td>88</td>
+<td>10001000</td>
+<td>ˆ</td>
+<td>&#136;</td>
+<td>&circ;</td>
+<td>Modifier letter circumflex accent</td>
+</tr>
+<tr>
+<td>137</td>
+<td>211</td>
+<td>89</td>
+<td>10001001</td>
+<td>‰</td>
+<td>&#137;</td>
+<td>&permil;</td>
+<td>Per mille sign</td>
+</tr>
+<tr>
+<td>138</td>
+<td>212</td>
+<td>8A</td>
+<td>10001010</td>
+<td>Š</td>
+<td>&#138;</td>
+<td>&Scaron;</td>
+<td>Latin capital letter S with caron</td>
+</tr>
+<tr>
+<td>139</td>
+<td>213</td>
+<td>8B</td>
+<td>10001011</td>
+<td>‹</td>
+<td>&#139;</td>
+<td>&lsaquo;</td>
+<td>Single left-pointing angle quotation</td>
+</tr>
+<tr>
+<td>140</td>
+<td>214</td>
+<td>8C</td>
+<td>10001100</td>
+<td>Œ</td>
+<td>&#140;</td>
+<td>&OElig;</td>
+<td>Latin capital ligature OE</td>
+</tr>
+<tr>
+<td>141</td>
+<td>215</td>
+<td>8D</td>
+<td>10001101</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>142</td>
+<td>216</td>
+<td>8E</td>
+<td>10001110</td>
+<td>Ž</td>
+<td>&#142;</td>
+<td></td>
+<td>Latin captial letter Z with caron</td>
+</tr>
+<tr>
+<td>143</td>
+<td>217</td>
+<td>8F</td>
+<td>10001111</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>144</td>
+<td>220</td>
+<td>90</td>
+<td>10010000</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>145</td>
+<td>221</td>
+<td>91</td>
+<td>10010001</td>
+<td>‘</td>
+<td>&#145;</td>
+<td>&lsquo;</td>
+<td>Left single quotation mark</td>
+</tr>
+<tr>
+<td>146</td>
+<td>222</td>
+<td>92</td>
+<td>10010010</td>
+<td>’</td>
+<td>&#146;</td>
+<td>&rsquo;</td>
+<td>Right single quotation mark</td>
+</tr>
+<tr>
+<td>147</td>
+<td>223</td>
+<td>93</td>
+<td>10010011</td>
+<td>“</td>
+<td>&#147;</td>
+<td>&ldquo;</td>
+<td>Left double quotation mark</td>
+</tr>
+<tr>
+<td>148</td>
+<td>224</td>
+<td>94</td>
+<td>10010100</td>
+<td>”</td>
+<td>&#148;</td>
+<td>&rdquo;</td>
+<td>Right double quotation mark</td>
+</tr>
+<tr>
+<td>149</td>
+<td>225</td>
+<td>95</td>
+<td>10010101</td>
+<td>•</td>
+<td>&#149;</td>
+<td>&bull;</td>
+<td>Bullet</td>
+</tr>
+<tr>
+<td>150</td>
+<td>226</td>
+<td>96</td>
+<td>10010110</td>
+<td>–</td>
+<td>&#150;</td>
+<td>&ndash;</td>
+<td>En dash</td>
+</tr>
+<tr>
+<td>151</td>
+<td>227</td>
+<td>97</td>
+<td>10010111</td>
+<td>—</td>
+<td>&#151;</td>
+<td>&mdash;</td>
+<td>Em dash</td>
+</tr>
+<tr>
+<td>152</td>
+<td>230</td>
+<td>98</td>
+<td>10011000</td>
+<td>˜</td>
+<td>&#152;</td>
+<td>&tilde;</td>
+<td>Small tilde</td>
+</tr>
+<tr>
+<td>153</td>
+<td>231</td>
+<td>99</td>
+<td>10011001</td>
+<td>™</td>
+<td>&#153;</td>
+<td>&trade;</td>
+<td>Trade mark sign</td>
+</tr>
+<tr>
+<td>154</td>
+<td>232</td>
+<td>9A</td>
+<td>10011010</td>
+<td>š</td>
+<td>&#154;</td>
+<td>&scaron;</td>
+<td>Latin small letter S with caron</td>
+</tr>
+<tr>
+<td>155</td>
+<td>233</td>
+<td>9B</td>
+<td>10011011</td>
+<td>›</td>
+<td>&#155;</td>
+<td>&rsaquo;</td>
+<td>Single right-pointing angle quotation mark</td>
+</tr>
+<tr>
+<td>156</td>
+<td>234</td>
+<td>9C</td>
+<td>10011100</td>
+<td>œ</td>
+<td>&#156;</td>
+<td>&oelig;</td>
+<td>Latin small ligature oe</td>
+</tr>
+<tr>
+<td>157</td>
+<td>235</td>
+<td>9D</td>
+<td>10011101</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>158</td>
+<td>236</td>
+<td>9E</td>
+<td>10011110</td>
+<td>ž</td>
+<td>&#158;</td>
+<td></td>
+<td>Latin small letter z with caron</td>
+</tr>
+<tr>
+<td>159</td>
+<td>237</td>
+<td>9F</td>
+<td>10011111</td>
+<td>Ÿ</td>
+<td>&#159;</td>
+<td>&yuml;</td>
+<td>Latin capital letter Y with diaeresis</td>
+</tr>
+<tr>
+<td>160</td>
+<td>240</td>
+<td>A0</td>
+<td>10100000</td>
+<td></td>
+<td>&#160;</td>
+<td>&nbsp;</td>
+<td>Non-breaking space</td>
+</tr>
+<tr>
+<td>161</td>
+<td>241</td>
+<td>A1</td>
+<td>10100001</td>
+<td>¡</td>
+<td>&#161;</td>
+<td>&iexcl;</td>
+<td>Inverted exclamation mark</td>
+</tr>
+<tr>
+<td>162</td>
+<td>242</td>
+<td>A2</td>
+<td>10100010</td>
+<td>¢</td>
+<td>&#162;</td>
+<td>&cent;</td>
+<td>Cent sign</td>
+</tr>
+<tr>
+<td>163</td>
+<td>243</td>
+<td>A3</td>
+<td>10100011</td>
+<td>£</td>
+<td>&#163;</td>
+<td>&pound;</td>
+<td>Pound sign</td>
+</tr>
+<tr>
+<td>164</td>
+<td>244</td>
+<td>A4</td>
+<td>10100100</td>
+<td>¤</td>
+<td>&#164;</td>
+<td>&curren;</td>
+<td>Currency sign</td>
+</tr>
+<tr>
+<td>165</td>
+<td>245</td>
+<td>A5</td>
+<td>10100101</td>
+<td>¥</td>
+<td>&#165;</td>
+<td>&yen;</td>
+<td>Yen sign</td>
+</tr>
+<tr>
+<td>166</td>
+<td>246</td>
+<td>A6</td>
+<td>10100110</td>
+<td>¦</td>
+<td>&#166;</td>
+<td>&brvbar;</td>
+<td>Pipe, Broken vertical bar</td>
+</tr>
+<tr>
+<td>167</td>
+<td>247</td>
+<td>A7</td>
+<td>10100111</td>
+<td>§</td>
+<td>&#167;</td>
+<td>&sect;</td>
+<td>Section sign</td>
+</tr>
+<tr>
+<td>168</td>
+<td>250</td>
+<td>A8</td>
+<td>10101000</td>
+<td>¨</td>
+<td>&#168;</td>
+<td>&uml;</td>
+<td>Spacing diaeresis - umlaut</td>
+</tr>
+<tr>
+<td>169</td>
+<td>251</td>
+<td>A9</td>
+<td>10101001</td>
+<td>©</td>
+<td>&#169;</td>
+<td>&copy;</td>
+<td>Copyright sign</td>
+</tr>
+<tr>
+<td>170</td>
+<td>252</td>
+<td>AA</td>
+<td>10101010</td>
+<td>ª</td>
+<td>&#170;</td>
+<td>&ordf;</td>
+<td>Feminine ordinal indicator</td>
+</tr>
+<tr>
+<td>171</td>
+<td>253</td>
+<td>AB</td>
+<td>10101011</td>
+<td>«</td>
+<td>&#171;</td>
+<td>&laquo;</td>
+<td>Left double angle quotes</td>
+</tr>
+<tr>
+<td>172</td>
+<td>254</td>
+<td>AC</td>
+<td>10101100</td>
+<td>¬</td>
+<td>&#172;</td>
+<td>&not;</td>
+<td>Not sign</td>
+</tr>
+<tr>
+<td>173</td>
+<td>255</td>
+<td>AD</td>
+<td>10101101</td>
+<td></td>
+<td>&#173;</td>
+<td>&shy;</td>
+<td>Soft hyphen</td>
+</tr>
+<tr>
+<td>174</td>
+<td>256</td>
+<td>AE</td>
+<td>10101110</td>
+<td>®</td>
+<td>&#174;</td>
+<td>&reg;</td>
+<td>Registered trade mark sign</td>
+</tr>
+<tr>
+<td>175</td>
+<td>257</td>
+<td>AF</td>
+<td>10101111</td>
+<td>¯</td>
+<td>&#175;</td>
+<td>&macr;</td>
+<td>Spacing macron - overline</td>
+</tr>
+<tr>
+<td>176</td>
+<td>260</td>
+<td>B0</td>
+<td>10110000</td>
+<td>°</td>
+<td>&#176;</td>
+<td>&deg;</td>
+<td>Degree sign</td>
+</tr>
+<tr>
+<td>177</td>
+<td>261</td>
+<td>B1</td>
+<td>10110001</td>
+<td>±</td>
+<td>&#177;</td>
+<td>&plusmn;</td>
+<td>Plus-or-minus sign</td>
+</tr>
+<tr>
+<td>178</td>
+<td>262</td>
+<td>B2</td>
+<td>10110010</td>
+<td>²</td>
+<td>&#178;</td>
+<td>&sup2;</td>
+<td>Superscript two - squared</td>
+</tr>
+<tr>
+<td>179</td>
+<td>263</td>
+<td>B3</td>
+<td>10110011</td>
+<td>³</td>
+<td>&#179;</td>
+<td>&sup3;</td>
+<td>Superscript three - cubed</td>
+</tr>
+<tr>
+<td>180</td>
+<td>264</td>
+<td>B4</td>
+<td>10110100</td>
+<td>´</td>
+<td>&#180;</td>
+<td>&acute;</td>
+<td>Acute accent - spacing acute</td>
+</tr>
+<tr>
+<td>181</td>
+<td>265</td>
+<td>B5</td>
+<td>10110101</td>
+<td>µ</td>
+<td>&#181;</td>
+<td>&micro;</td>
+<td>Micro sign</td>
+</tr>
+<tr>
+<td>182</td>
+<td>266</td>
+<td>B6</td>
+<td>10110110</td>
+<td>¶</td>
+<td>&#182;</td>
+<td>&para;</td>
+<td>Pilcrow sign - paragraph sign</td>
+</tr>
+<tr>
+<td>183</td>
+<td>267</td>
+<td>B7</td>
+<td>10110111</td>
+<td>·</td>
+<td>&#183;</td>
+<td>&middot;</td>
+<td>Middle dot - Georgian comma</td>
+</tr>
+<tr>
+<td>184</td>
+<td>270</td>
+<td>B8</td>
+<td>10111000</td>
+<td>¸</td>
+<td>&#184;</td>
+<td>&cedil;</td>
+<td>Spacing cedilla</td>
+</tr>
+<tr>
+<td>185</td>
+<td>271</td>
+<td>B9</td>
+<td>10111001</td>
+<td>¹</td>
+<td>&#185;</td>
+<td>&sup1;</td>
+<td>Superscript one</td>
+</tr>
+<tr>
+<td>186</td>
+<td>272</td>
+<td>BA</td>
+<td>10111010</td>
+<td>º</td>
+<td>&#186;</td>
+<td>&ordm;</td>
+<td>Masculine ordinal indicator</td>
+</tr>
+<tr>
+<td>187</td>
+<td>273</td>
+<td>BB</td>
+<td>10111011</td>
+<td>»</td>
+<td>&#187;</td>
+<td>&raquo;</td>
+<td>Right double angle quotes</td>
+</tr>
+<tr>
+<td>188</td>
+<td>274</td>
+<td>BC</td>
+<td>10111100</td>
+<td>¼</td>
+<td>&#188;</td>
+<td>&frac14;</td>
+<td>Fraction one quarter</td>
+</tr>
+<tr>
+<td>189</td>
+<td>275</td>
+<td>BD</td>
+<td>10111101</td>
+<td>½</td>
+<td>&#189;</td>
+<td>&frac12;</td>
+<td>Fraction one half</td>
+</tr>
+<tr>
+<td>190</td>
+<td>276</td>
+<td>BE</td>
+<td>10111110</td>
+<td>¾</td>
+<td>&#190;</td>
+<td>&frac34;</td>
+<td>Fraction three quarters</td>
+</tr>
+<tr>
+<td>191</td>
+<td>277</td>
+<td>BF</td>
+<td>10111111</td>
+<td>¿</td>
+<td>&#191;</td>
+<td>&iquest;</td>
+<td>Inverted question mark</td>
+</tr>
+<tr>
+<td>192</td>
+<td>300</td>
+<td>C0</td>
+<td>11000000</td>
+<td>À</td>
+<td>&#192;</td>
+<td>&Agrave;</td>
+<td>Latin capital letter A with grave</td>
+</tr>
+<tr>
+<td>193</td>
+<td>301</td>
+<td>C1</td>
+<td>11000001</td>
+<td>Á</td>
+<td>&#193;</td>
+<td>&Aacute;</td>
+<td>Latin capital letter A with acute</td>
+</tr>
+<tr>
+<td>194</td>
+<td>302</td>
+<td>C2</td>
+<td>11000010</td>
+<td>Â</td>
+<td>&#194;</td>
+<td>&Acirc;</td>
+<td>Latin capital letter A with circumflex</td>
+</tr>
+<tr>
+<td>195</td>
+<td>303</td>
+<td>C3</td>
+<td>11000011</td>
+<td>Ã</td>
+<td>&#195;</td>
+<td>&Atilde;</td>
+<td>Latin capital letter A with tilde</td>
+</tr>
+<tr>
+<td>196</td>
+<td>304</td>
+<td>C4</td>
+<td>11000100</td>
+<td>Ä</td>
+<td>&#196;</td>
+<td>&Auml;</td>
+<td>Latin capital letter A with diaeresis</td>
+</tr>
+<tr>
+<td>197</td>
+<td>305</td>
+<td>C5</td>
+<td>11000101</td>
+<td>Å</td>
+<td>&#197;</td>
+<td>&Aring;</td>
+<td>Latin capital letter A with ring above</td>
+</tr>
+<tr>
+<td>198</td>
+<td>306</td>
+<td>C6</td>
+<td>11000110</td>
+<td>Æ</td>
+<td>&#198;</td>
+<td>&AElig;</td>
+<td>Latin capital letter AE</td>
+</tr>
+<tr>
+<td>199</td>
+<td>307</td>
+<td>C7</td>
+<td>11000111</td>
+<td>Ç</td>
+<td>&#199;</td>
+<td>&Ccedil;</td>
+<td>Latin capital letter C with cedilla</td>
+</tr>
+<tr>
+<td>200</td>
+<td>310</td>
+<td>C8</td>
+<td>11001000</td>
+<td>È</td>
+<td>&#200;</td>
+<td>&Egrave;</td>
+<td>Latin capital letter E with grave</td>
+</tr>
+<tr>
+<td>201</td>
+<td>311</td>
+<td>C9</td>
+<td>11001001</td>
+<td>É</td>
+<td>&#201;</td>
+<td>&Eacute;</td>
+<td>Latin capital letter E with acute</td>
+</tr>
+<tr>
+<td>202</td>
+<td>312</td>
+<td>CA</td>
+<td>11001010</td>
+<td>Ê</td>
+<td>&#202;</td>
+<td>&Ecirc;</td>
+<td>Latin capital letter E with circumflex</td>
+</tr>
+<tr>
+<td>203</td>
+<td>313</td>
+<td>CB</td>
+<td>11001011</td>
+<td>Ë</td>
+<td>&#203;</td>
+<td>&Euml;</td>
+<td>Latin capital letter E with diaeresis</td>
+</tr>
+<tr>
+<td>204</td>
+<td>314</td>
+<td>CC</td>
+<td>11001100</td>
+<td>Ì</td>
+<td>&#204;</td>
+<td>&Igrave;</td>
+<td>Latin capital letter I with grave</td>
+</tr>
+<tr>
+<td>205</td>
+<td>315</td>
+<td>CD</td>
+<td>11001101</td>
+<td>Í</td>
+<td>&#205;</td>
+<td>&Iacute;</td>
+<td>Latin capital letter I with acute</td>
+</tr>
+<tr>
+<td>206</td>
+<td>316</td>
+<td>CE</td>
+<td>11001110</td>
+<td>Î</td>
+<td>&#206;</td>
+<td>&Icirc;</td>
+<td>Latin capital letter I with circumflex</td>
+</tr>
+<tr>
+<td>207</td>
+<td>317</td>
+<td>CF</td>
+<td>11001111</td>
+<td>Ï</td>
+<td>&#207;</td>
+<td>&Iuml;</td>
+<td>Latin capital letter I with diaeresis</td>
+</tr>
+<tr>
+<td>208</td>
+<td>320</td>
+<td>D0</td>
+<td>11010000</td>
+<td>Ð</td>
+<td>&#208;</td>
+<td>&ETH;</td>
+<td>Latin capital letter ETH</td>
+</tr>
+<tr>
+<td>209</td>
+<td>321</td>
+<td>D1</td>
+<td>11010001</td>
+<td>Ñ</td>
+<td>&#209;</td>
+<td>&Ntilde;</td>
+<td>Latin capital letter N with tilde</td>
+</tr>
+<tr>
+<td>210</td>
+<td>322</td>
+<td>D2</td>
+<td>11010010</td>
+<td>Ò</td>
+<td>&#210;</td>
+<td>&Ograve;</td>
+<td>Latin capital letter O with grave</td>
+</tr>
+<tr>
+<td>211</td>
+<td>323</td>
+<td>D3</td>
+<td>11010011</td>
+<td>Ó</td>
+<td>&#211;</td>
+<td>&Oacute;</td>
+<td>Latin capital letter O with acute</td>
+</tr>
+<tr>
+<td>212</td>
+<td>324</td>
+<td>D4</td>
+<td>11010100</td>
+<td>Ô</td>
+<td>&#212;</td>
+<td>&Ocirc;</td>
+<td>Latin capital letter O with circumflex</td>
+</tr>
+<tr>
+<td>213</td>
+<td>325</td>
+<td>D5</td>
+<td>11010101</td>
+<td>Õ</td>
+<td>&#213;</td>
+<td>&Otilde;</td>
+<td>Latin capital letter O with tilde</td>
+</tr>
+<tr>
+<td>214</td>
+<td>326</td>
+<td>D6</td>
+<td>11010110</td>
+<td>Ö</td>
+<td>&#214;</td>
+<td>&Ouml;</td>
+<td>Latin capital letter O with diaeresis</td>
+</tr>
+<tr>
+<td>215</td>
+<td>327</td>
+<td>D7</td>
+<td>11010111</td>
+<td>×</td>
+<td>&#215;</td>
+<td>&times;</td>
+<td>Multiplication sign</td>
+</tr>
+<tr>
+<td>216</td>
+<td>330</td>
+<td>D8</td>
+<td>11011000</td>
+<td>Ø</td>
+<td>&#216;</td>
+<td>&Oslash;</td>
+<td>Latin capital letter O with slash</td>
+</tr>
+<tr>
+<td>217</td>
+<td>331</td>
+<td>D9</td>
+<td>11011001</td>
+<td>Ù</td>
+<td>&#217;</td>
+<td>&Ugrave;</td>
+<td>Latin capital letter U with grave</td>
+</tr>
+<tr>
+<td>218</td>
+<td>332</td>
+<td>DA</td>
+<td>11011010</td>
+<td>Ú</td>
+<td>&#218;</td>
+<td>&Uacute;</td>
+<td>Latin capital letter U with acute</td>
+</tr>
+<tr>
+<td>219</td>
+<td>333</td>
+<td>DB</td>
+<td>11011011</td>
+<td>Û</td>
+<td>&#219;</td>
+<td>&Ucirc;</td>
+<td>Latin capital letter U with circumflex</td>
+</tr>
+<tr>
+<td>220</td>
+<td>334</td>
+<td>DC</td>
+<td>11011100</td>
+<td>Ü</td>
+<td>&#220;</td>
+<td>&Uuml;</td>
+<td>Latin capital letter U with diaeresis</td>
+</tr>
+<tr>
+<td>221</td>
+<td>335</td>
+<td>DD</td>
+<td>11011101</td>
+<td>Ý</td>
+<td>&#221;</td>
+<td>&Yacute;</td>
+<td>Latin capital letter Y with acute</td>
+</tr>
+<tr>
+<td>222</td>
+<td>336</td>
+<td>DE</td>
+<td>11011110</td>
+<td>Þ</td>
+<td>&#222;</td>
+<td>&THORN;</td>
+<td>Latin capital letter THORN</td>
+</tr>
+<tr>
+<td>223</td>
+<td>337</td>
+<td>DF</td>
+<td>11011111</td>
+<td>ß</td>
+<td>&#223;</td>
+<td>&szlig;</td>
+<td>Latin small letter sharp s - ess-zed</td>
+</tr>
+<tr>
+<td>224</td>
+<td>340</td>
+<td>E0</td>
+<td>11100000</td>
+<td>à</td>
+<td>&#224;</td>
+<td>&agrave;</td>
+<td>Latin small letter a with grave</td>
+</tr>
+<tr>
+<td>225</td>
+<td>341</td>
+<td>E1</td>
+<td>11100001</td>
+<td>á</td>
+<td>&#225;</td>
+<td>&aacute;</td>
+<td>Latin small letter a with acute</td>
+</tr>
+<tr>
+<td>226</td>
+<td>342</td>
+<td>E2</td>
+<td>11100010</td>
+<td>â</td>
+<td>&#226;</td>
+<td>&acirc;</td>
+<td>Latin small letter a with circumflex</td>
+</tr>
+<tr>
+<td>227</td>
+<td>343</td>
+<td>E3</td>
+<td>11100011</td>
+<td>ã</td>
+<td>&#227;</td>
+<td>&atilde;</td>
+<td>Latin small letter a with tilde</td>
+</tr>
+<tr>
+<td>228</td>
+<td>344</td>
+<td>E4</td>
+<td>11100100</td>
+<td>ä</td>
+<td>&#228;</td>
+<td>&auml;</td>
+<td>Latin small letter a with diaeresis</td>
+</tr>
+<tr>
+<td>229</td>
+<td>345</td>
+<td>E5</td>
+<td>11100101</td>
+<td>å</td>
+<td>&#229;</td>
+<td>&aring;</td>
+<td>Latin small letter a with ring above</td>
+</tr>
+<tr>
+<td>230</td>
+<td>346</td>
+<td>E6</td>
+<td>11100110</td>
+<td>æ</td>
+<td>&#230;</td>
+<td>&aelig;</td>
+<td>Latin small letter ae</td>
+</tr>
+<tr>
+<td>231</td>
+<td>347</td>
+<td>E7</td>
+<td>11100111</td>
+<td>ç</td>
+<td>&#231;</td>
+<td>&ccedil;</td>
+<td>Latin small letter c with cedilla</td>
+</tr>
+<tr>
+<td>232</td>
+<td>350</td>
+<td>E8</td>
+<td>11101000</td>
+<td>è</td>
+<td>&#232;</td>
+<td>&egrave;</td>
+<td>Latin small letter e with grave</td>
+</tr>
+<tr>
+<td>233</td>
+<td>351</td>
+<td>E9</td>
+<td>11101001</td>
+<td>é</td>
+<td>&#233;</td>
+<td>&eacute;</td>
+<td>Latin small letter e with acute</td>
+</tr>
+<tr>
+<td>234</td>
+<td>352</td>
+<td>EA</td>
+<td>11101010</td>
+<td>ê</td>
+<td>&#234;</td>
+<td>&ecirc;</td>
+<td>Latin small letter e with circumflex</td>
+</tr>
+<tr>
+<td>235</td>
+<td>353</td>
+<td>EB</td>
+<td>11101011</td>
+<td>ë</td>
+<td>&#235;</td>
+<td>&euml;</td>
+<td>Latin small letter e with diaeresis</td>
+</tr>
+<tr>
+<td>236</td>
+<td>354</td>
+<td>EC</td>
+<td>11101100</td>
+<td>ì</td>
+<td>&#236;</td>
+<td>&igrave;</td>
+<td>Latin small letter i with grave</td>
+</tr>
+<tr>
+<td>237</td>
+<td>355</td>
+<td>ED</td>
+<td>11101101</td>
+<td>í</td>
+<td>&#237;</td>
+<td>&iacute;</td>
+<td>Latin small letter i with acute</td>
+</tr>
+<tr>
+<td>238</td>
+<td>356</td>
+<td>EE</td>
+<td>11101110</td>
+<td>î</td>
+<td>&#238;</td>
+<td>&icirc;</td>
+<td>Latin small letter i with circumflex</td>
+</tr>
+<tr>
+<td>239</td>
+<td>357</td>
+<td>EF</td>
+<td>11101111</td>
+<td>ï</td>
+<td>&#239;</td>
+<td>&iuml;</td>
+<td>Latin small letter i with diaeresis</td>
+</tr>
+<tr>
+<td>240</td>
+<td>360</td>
+<td>F0</td>
+<td>11110000</td>
+<td>ð</td>
+<td>&#240;</td>
+<td>&eth;</td>
+<td>Latin small letter eth</td>
+</tr>
+<tr>
+<td>241</td>
+<td>361</td>
+<td>F1</td>
+<td>11110001</td>
+<td>ñ</td>
+<td>&#241;</td>
+<td>&ntilde;</td>
+<td>Latin small letter n with tilde</td>
+</tr>
+<tr>
+<td>242</td>
+<td>362</td>
+<td>F2</td>
+<td>11110010</td>
+<td>ò</td>
+<td>&#242;</td>
+<td>&ograve;</td>
+<td>Latin small letter o with grave</td>
+</tr>
+<tr>
+<td>243</td>
+<td>363</td>
+<td>F3</td>
+<td>11110011</td>
+<td>ó</td>
+<td>&#243;</td>
+<td>&oacute;</td>
+<td>Latin small letter o with acute</td>
+</tr>
+<tr>
+<td>244</td>
+<td>364</td>
+<td>F4</td>
+<td>11110100</td>
+<td>ô</td>
+<td>&#244;</td>
+<td>&ocirc;</td>
+<td>Latin small letter o with circumflex</td>
+</tr>
+<tr>
+<td>245</td>
+<td>365</td>
+<td>F5</td>
+<td>11110101</td>
+<td>õ</td>
+<td>&#245;</td>
+<td>&otilde;</td>
+<td>Latin small letter o with tilde</td>
+</tr>
+<tr>
+<td>246</td>
+<td>366</td>
+<td>F6</td>
+<td>11110110</td>
+<td>ö</td>
+<td>&#246;</td>
+<td>&ouml;</td>
+<td>Latin small letter o with diaeresis</td>
+</tr>
+<tr>
+<td>247</td>
+<td>367</td>
+<td>F7</td>
+<td>11110111</td>
+<td>÷</td>
+<td>&#247;</td>
+<td>&divide;</td>
+<td>Division sign</td>
+</tr>
+<tr>
+<td>248</td>
+<td>370</td>
+<td>F8</td>
+<td>11111000</td>
+<td>ø</td>
+<td>&#248;</td>
+<td>&oslash;</td>
+<td>Latin small letter o with slash</td>
+</tr>
+<tr>
+<td>249</td>
+<td>371</td>
+<td>F9</td>
+<td>11111001</td>
+<td>ù</td>
+<td>&#249;</td>
+<td>&ugrave;</td>
+<td>Latin small letter u with grave</td>
+</tr>
+<tr>
+<td>250</td>
+<td>372</td>
+<td>FA</td>
+<td>11111010</td>
+<td>ú</td>
+<td>&#250;</td>
+<td>&uacute;</td>
+<td>Latin small letter u with acute</td>
+</tr>
+<tr>
+<td>251</td>
+<td>373</td>
+<td>FB</td>
+<td>11111011</td>
+<td>û</td>
+<td>&#251;</td>
+<td>&ucirc;</td>
+<td>Latin small letter u with circumflex</td>
+</tr>
+<tr>
+<td>252</td>
+<td>374</td>
+<td>FC</td>
+<td>11111100</td>
+<td>ü</td>
+<td>&#252;</td>
+<td>&uuml;</td>
+<td>Latin small letter u with diaeresis</td>
+</tr>
+<tr>
+<td>253</td>
+<td>375</td>
+<td>FD</td>
+<td>11111101</td>
+<td>ý</td>
+<td>&#253;</td>
+<td>&yacute;</td>
+<td>Latin small letter y with acute</td>
+</tr>
+<tr>
+<td>254</td>
+<td>376</td>
+<td>FE</td>
+<td>11111110</td>
+<td>þ</td>
+<td>&#254;</td>
+<td>&thorn;</td>
+<td>Latin small letter thorn</td>
+</tr>
+<tr>
+<td>255</td>
+<td>377</td>
+<td>FF</td>
+<td>11111111</td>
+<td>ÿ</td>
+<td>&#255;</td>
+<td>&yuml;</td>
+<td>Latin small letter y with diaeresis</td>
+</tr>
+</tbody>
+</table>
+<h3 id="GB2312-GBK"><a href="#GB2312-GBK" class="headerlink" title="GB2312/GBK"></a>GB2312/GBK</h3><p>简单解释：</p>
+<p>DBCS（Double Byte Charecter Set 双字节字符集）最大的特点是两字节长的汉字字符和一字节长的英文字符并存于同一套编码方案里，因此他们写的程序为了支持中文处理，必须要注意字串里的每一个字节的值，如果这个值是大于127的，那么就认为一个双字节字符集里的字符出现了</p>
+<h3 id="UNICODE"><a href="#UNICODE" class="headerlink" title="UNICODE"></a>UNICODE</h3><p>简单解释：</p>
+<p>IOS（国际标准化组织）重新做的一套编码方案<strong>“Universal Multiple-Octet Coded Character Set”，简称 UCS, 俗称 “UNICODE”。</strong></p>
+<p>unicode可以是两个字节或是4个字节。目前的用于实用的Unicode版本对应于UCS-2，使用16位的编码空间。也就是每个字符占用2个字节。unicode使用4字节的，叫ucs-4。</p>
+<h3 id="UTF-X"><a href="#UTF-X" class="headerlink" title="UTF-X"></a>UTF-X</h3><p>UTF8并不算是一种电脑编码，而是一种储存和传送的格式，如前所述，每个Unicode/UCS字符都以 2或4个bytes来储存，看看以下的比较：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">以&quot;I am Chinese&quot;为例：</div><div class="line">用ANSI储存：12 Bytes</div><div class="line">用Unicode/UCS2储存：24 Bytes + 2 Bytes(header)</div><div class="line">用UCS4储存：48 Bytes + 4 Bytes(header)</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">以&quot;我是中国人&quot;为例：</div><div class="line">用ANSI储存：10 Bytes</div><div class="line">用Unicode/UCS2储存：10 Bytes + 2 Bytes(header)</div><div class="line">用UCS4储存：20 Bytes + 4 Bytes(header)</div></pre></td></tr></table></figure>
+<blockquote>
+<p>直接以Unicode/UCS的原始形式来储存是一种极大的浪费，而且也不利于互联网的传输(中文稍为合算一点。Unicode/UCS的压缩形式－－UTF8出现了，套用官方网站的首句话『UTF-8 stands for Unicode Transformation Format-8. It is an octet (8-bit) lossless encoding of Unicode characters.』，由于UTF也适用于编码UCS，故亦可称为『UCS transformation formats (UTF)』</p>
+</blockquote>
+<p>UTF8是以8bits即1Bytes为编码的最基本单位，当然也可以有基于16bits和32bits的形式，分别称为UTF16和UTF32，但目前用得不多，而UTF8则被广泛应用在文件储存和网络传输中。</p>
+<h2 id="160空格和32空格的问题"><a href="#160空格和32空格的问题" class="headerlink" title="160空格和32空格的问题"></a>160空格和32空格的问题</h2><p>下面来说一下项目中遇到的问题：</p>
+<p>拿到的空格是扩展ascii码表的160 也就是NBSP</p>
+<p>在iOS中</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">//以下代码只是去除了普通的32空格（space)</div><div class="line">str = [str stringByReplacingOccurrencesOfString:[NSString stringWithFormat:@&quot;%c&quot;,32] withString:@&quot;&quot;];</div><div class="line">//以下代码去除了160空格(NBSP)(option + space)</div><div class="line">str = [str stringByReplacingOccurrencesOfString:[NSString stringWithFormat:@&quot;%c&quot;,160] withString:@&quot;&quot;];</div></pre></td></tr></table></figure>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul>
+<li><a href="https://zh.wikipedia.org/wiki/ASCII" target="_blank" rel="external">维基百科-ASCII</a></li>
+<li><a href="https://zh.wikipedia.org/wiki/Unicode" target="_blank" rel="external">维基百科-UNICODE</a></li>
+<li><a href="https://zh.wikipedia.org/wiki/UTF-8" target="_blank" rel="external">维基百科-UTF8</a></li>
+<li><a href="http://blog.csdn.net/tq471214251/article/details/49075313" target="_blank" rel="external">iOS－－字符编码，NSString和UTF-8间的转换</a></li>
+<li><a href="http://blog.csdn.net/u013808371/article/details/44460713" target="_blank" rel="external">unicode utf8 与 ascii的关系</a></li>
+<li><a href="https://www.computerhope.com/jargon/n/nbsp.htm" target="_blank" rel="external">NBSP</a></li>
+</ul>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/计算机/">计算机</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/source/tags/iOS/">iOS</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://melonshare.com/2017/09/19/关于字符编码的一些问题/" data-title="关于字符编码的一些问题 | lcjingdi的博客" data-tsina="" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/2017/09/13/iOS9图片格式导致的问题/"  title="图片格式不一致可能导致的问题分析">
+ <strong>下一篇：</strong><br/> 
+ <span>图片格式不一致可能导致的问题分析
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+<section id="comments" class="comment">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言："><span class="toc-number">1.</span> <span class="toc-text">前言：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#编码格式"><span class="toc-number">2.</span> <span class="toc-text">编码格式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ASCII"><span class="toc-number">2.1.</span> <span class="toc-text">ASCII</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ASCII字符表构成"><span class="toc-number">2.2.</span> <span class="toc-text">ASCII字符表构成</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#ASCII控制符号"><span class="toc-number">2.2.0.1.</span> <span class="toc-text">ASCII控制符号</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#ASCII码可显示字符"><span class="toc-number">2.2.0.2.</span> <span class="toc-text">ASCII码可显示字符</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#扩展的-ASCII码表"><span class="toc-number">2.2.0.3.</span> <span class="toc-text">扩展的 ASCII码表</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#GB2312-GBK"><span class="toc-number">2.3.</span> <span class="toc-text">GB2312/GBK</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#UNICODE"><span class="toc-number">2.4.</span> <span class="toc-text">UNICODE</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#UTF-X"><span class="toc-number">2.5.</span> <span class="toc-text">UTF-X</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#160空格和32空格的问题"><span class="toc-number">3.</span> <span class="toc-text">160空格和32空格的问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考链接"><span class="toc-number">4.</span> <span class="toc-text">参考链接</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Other/" title="Other">Other<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/iOS/" title="iOS">iOS<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/计算机/" title="计算机">计算机<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/source/tags/IDE/" title="IDE">IDE<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/source/tags/blog/" title="blog">blog<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/source/tags/图片/" title="图片">图片<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/source/tags/iOS/" title="iOS">iOS<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/source/tags/bug/" title="bug">bug<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/source/tags/Tools/" title="Tools">Tools<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	
+	<section class="info">
+		<p> 个人介绍 <br/>
+			</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		<a href="https://github.com/lcjingdi" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		<a href="mailto:lcjingdi@gmail.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2017 
+		
+		<a href="/about" target="_blank" title="lcjingdi">lcjingdi</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+<script type="text/javascript">
+
+var disqus_shortname = 'lcjingdi';
+
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-106054519-1', 'melonshare.com');  
+ga('send', 'pageview');
+</script>
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
