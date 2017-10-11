@@ -4,29 +4,22 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>利用Charles进行JS调试 | lcjingdi的博客</title>
+    <title>Xcode9下适配iOS11和iPhoneX | lcjingdi的博客</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="lcjingdi">
     
 
     
-    <meta name="description" content="前因iOS开发中，尤其是和web混编的过程中，最烦的就是调试啦，检查错误的过程中，前端开发人员需要修改保存后，我们本机再通过运行程序，打开webview进行调试，有点麻烦，利用charles的map和write功能就可以很容易的和后台的小伙伴进行调试啦 本篇的目的就是截取请求，把请求重定向到本地文件 前期准备 本地搭建服务器（本例为本机自己搭建的apache服务器）放在服务器上的一些html／cs">
-<meta name="keywords" content="Charles">
+    <meta name="keywords" content="适配">
 <meta property="og:type" content="article">
-<meta property="og:title" content="利用Charles进行JS调试">
-<meta property="og:url" content="http://melonshare.com/2017/09/07/利用Charles进行JS调试/index.html">
+<meta property="og:title" content="Xcode9下适配iOS11和iPhoneX">
+<meta property="og:url" content="http://melonshare.com/2017/09/25/Xcode9下适配iOS11和iPhoneX/index.html">
 <meta property="og:site_name" content="lcjingdi的博客">
-<meta property="og:description" content="前因iOS开发中，尤其是和web混编的过程中，最烦的就是调试啦，检查错误的过程中，前端开发人员需要修改保存后，我们本机再通过运行程序，打开webview进行调试，有点麻烦，利用charles的map和write功能就可以很容易的和后台的小伙伴进行调试啦 本篇的目的就是截取请求，把请求重定向到本地文件 前期准备 本地搭建服务器（本例为本机自己搭建的apache服务器）放在服务器上的一些html／cs">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://melonshare.com/images/iOS利用Charles进行JS调试1.png">
-<meta property="og:image" content="http://melonshare.com/images/iOS利用Charles进行JS调试2.png">
-<meta property="og:image" content="http://melonshare.com/images/iOS利用Charles进行JS调试3.png">
-<meta property="og:updated_time" content="2017-09-22T02:19:11.000Z">
+<meta property="og:updated_time" content="2017-09-25T06:04:56.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="利用Charles进行JS调试">
-<meta name="twitter:description" content="前因iOS开发中，尤其是和web混编的过程中，最烦的就是调试啦，检查错误的过程中，前端开发人员需要修改保存后，我们本机再通过运行程序，打开webview进行调试，有点麻烦，利用charles的map和write功能就可以很容易的和后台的小伙伴进行调试啦 本篇的目的就是截取请求，把请求重定向到本地文件 前期准备 本地搭建服务器（本例为本机自己搭建的apache服务器）放在服务器上的一些html／cs">
-<meta name="twitter:image" content="http://melonshare.com/images/iOS利用Charles进行JS调试1.png">
+<meta name="twitter:title" content="Xcode9下适配iOS11和iPhoneX">
 
     
     
@@ -84,14 +77,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2017/09/07/利用Charles进行JS调试/" title="利用Charles进行JS调试" itemprop="url">利用Charles进行JS调试</a>
+      <a href="/2017/09/25/Xcode9下适配iOS11和iPhoneX/" title="Xcode9下适配iOS11和iPhoneX" itemprop="url">Xcode9下适配iOS11和iPhoneX</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="lcjingdi" target="_blank" itemprop="author">lcjingdi</a>
 		
   <p class="article-time">
-    <time datetime="2017-09-06T16:00:00.000Z" itemprop="datePublished"> Published 2017-09-07</time>
+    <time datetime="2017-09-24T16:00:00.000Z" itemprop="datePublished"> Published 2017-09-25</time>
     
   </p>
 </header>
@@ -100,51 +93,24 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">Contents</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前因"><span class="toc-number">1.</span> <span class="toc-text">前因</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#前期准备"><span class="toc-number">2.</span> <span class="toc-text">前期准备</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#begin"><span class="toc-number">3.</span> <span class="toc-text">begin</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#服务器配置"><span class="toc-number">3.1.</span> <span class="toc-text">服务器配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Charles配置"><span class="toc-number">3.2.</span> <span class="toc-text">Charles配置</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考链接"><span class="toc-number">4.</span> <span class="toc-text">参考链接</span></a></li></ol>
+			
 		
 		</div>
 		
-		<h2 id="前因"><a href="#前因" class="headerlink" title="前因"></a>前因</h2><p>iOS开发中，尤其是和web混编的过程中，最烦的就是调试啦，检查错误的过程中，前端开发人员需要修改保存后，我们本机再通过运行程序，打开webview进行调试，有点麻烦，利用<strong>charles</strong>的<code>map</code>和<code>write</code>功能就可以很容易的和后台的小伙伴进行调试啦</p>
-<p><strong>本篇的目的就是截取请求，把请求重定向到本地文件</strong></p>
-<h2 id="前期准备"><a href="#前期准备" class="headerlink" title="前期准备"></a>前期准备</h2><ol>
-<li>本地搭建服务器（本例为本机自己搭建的apache服务器）放在服务器上的一些html／css／js文件 目录结构如下：<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">.</div><div class="line">├── index2.html</div><div class="line">└── index.html</div></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>以上步骤类似于像服务器发送一个请求，所得到的文件index.html，我们的<code>目的</code>就是把请求的index.html文件映射到index2.html文件</p>
-<blockquote>
-<p>虽然都是本地文件，但是意义是不同的，哪个文件直接被请求，那么这个文件就相当于在服务器上，另外一个文件在本地</p>
-</blockquote>
-<h2 id="begin"><a href="#begin" class="headerlink" title="begin"></a>begin</h2><h3 id="服务器配置"><a href="#服务器配置" class="headerlink" title="服务器配置"></a>服务器配置</h3><p>搭建apache服务器网上有很多教程，就不详细介绍apache的安装过程了，大概介绍下是怎么配置的服务器</p>
-<ol>
-<li>修改apache的虚拟主机为本地的文件夹<br><img src="/images/iOS利用Charles进行JS调试1.png" alt="image.png"><br>本例修改为桌面的network文件夹（可以想象成此文件夹就是后台提供的服务器地址）对应的域名为www.xxoo.com（即在浏览器地址栏中输入www.xxoo.com会访问你这个文件夹下的index.html/index.php文件，具体的默认文件名，需要在apache中设置 就不多介绍了）</li>
-<li>修改host文件，以便访问www.xxoo.com能访问你本地的network文件夹下的index.html文件</li>
-</ol>
-<p><img src="/images/iOS利用Charles进行JS调试2.png" alt="image.png"></p>
-<p>准备工作做完后，就可以在这个文件夹中创建一个index.html文件，在浏览器输入www.xxoo.com打开（一切准备就绪，开始下一步一步）</p>
-<p>index.html文件</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">&lt;!DOCTYPE html&gt;</div><div class="line">&lt;html lang=<span class="string">"en"</span>&gt;</div><div class="line">&lt;head&gt;</div><div class="line">	&lt;meta charset=<span class="string">"UTF-8"</span>&gt;</div><div class="line">	&lt;title&gt;网络服务器&lt;<span class="regexp">/title&gt;</span></div><div class="line"><span class="regexp">	&lt;link rel="stylesheet" type="text/</span>css<span class="string">" href="</span>css/main.css<span class="string">"&gt;</span></div><div class="line"><span class="string">	&lt;script type="</span>text/javascript<span class="string">" src="</span>js/main.js<span class="string">"&gt;&lt;/script&gt;</span></div><div class="line"><span class="string">&lt;/head&gt;</span></div><div class="line"><span class="string">&lt;body&gt;</span></div><div class="line"><span class="string">&lt;div&gt;</span></div><div class="line"><span class="string">  &lt;span&gt;网络服务器&lt;/span&gt;</span></div><div class="line"><span class="string">&lt;/div&gt;</span></div><div class="line"><span class="string">&lt;/body&gt;</span></div><div class="line"><span class="string">&lt;/html&gt;</span></div></pre></td></tr></table></figure>
-<p>index2.html文件</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">&lt;!DOCTYPE html&gt;</div><div class="line">&lt;html lang=<span class="string">"en"</span>&gt;</div><div class="line">&lt;head&gt;</div><div class="line">	&lt;meta charset=<span class="string">"UTF-8"</span>&gt;</div><div class="line">	&lt;title&gt;本地映射文件&lt;<span class="regexp">/title&gt;</span></div><div class="line"><span class="regexp">	&lt;link rel="stylesheet" type="text/</span>css<span class="string">" href="</span>css/main.css<span class="string">"&gt;</span></div><div class="line"><span class="string">	&lt;script type="</span>text/javascript<span class="string">" src="</span>js/main.js<span class="string">"&gt;&lt;/script&gt;</span></div><div class="line"><span class="string">&lt;/head&gt;</span></div><div class="line"><span class="string">&lt;body&gt;</span></div><div class="line"><span class="string">	&lt;div&gt;</span></div><div class="line"><span class="string">      &lt;span&gt;本地服务器&lt;/span&gt;</span></div><div class="line"><span class="string">	&lt;/div&gt;</span></div><div class="line"><span class="string">&lt;/body&gt;</span></div><div class="line"><span class="string">&lt;/html&gt;</span></div></pre></td></tr></table></figure>
-<p>效果图：</p>
-<p><img src="/images/iOS利用Charles进行JS调试3.png" alt="image.png"></p>
-<h3 id="Charles配置"><a href="#Charles配置" class="headerlink" title="Charles配置"></a>Charles配置</h3><h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul>
-<li><a href="http://www.heyuan110.com/2015/08/15/Charles%E8%BE%85%E5%8A%A9%E8%B0%83%E8%AF%95%E6%8E%A5%E5%8F%A3/" target="_blank" rel="external">Charles辅助调试接口</a></li>
-<li><a href="http://www.cnblogs.com/wonyun/p/5586746.html" target="_blank" rel="external">charles本地调试之map和rewrite功能</a></li>
-</ul>
-  
+		  
 	</div>
 		<footer class="article-footer clearfix">
 <div class="article-catetags">
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/Tools/">Tools</a>
+  <a class="article-category-link" href="/categories/iOS/">iOS</a>
 </div>
 
 
   <div class="article-tags">
   
-  <span></span> <a href="/source/tags/Charles/">Charles</a>
+  <span></span> <a href="/source/tags/适配/">适配</a>
   </div>
 
 </div>
@@ -153,7 +119,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://melonshare.com/2017/09/07/利用Charles进行JS调试/" data-title="利用Charles进行JS调试 | lcjingdi的博客" data-tsina="" class="share clearfix">
+	  <div data-url="http://melonshare.com/2017/09/25/Xcode9下适配iOS11和iPhoneX/" data-title="Xcode9下适配iOS11和iPhoneX | lcjingdi的博客" data-tsina="" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -167,18 +133,18 @@
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2017/09/13/iOS9图片格式导致的问题/" title="图片格式不一致可能导致的问题分析">
+ <a href="/2017/10/10/mac开启ftp服务/" title="mac开启sftp服务">
   <strong>上一篇：</strong><br/>
   <span>
-  图片格式不一致可能导致的问题分析</span>
+  mac开启sftp服务</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2017/09/01/iOS调试之 crash log分析/"  title="iOS调试之 crash log分析">
+<a href="/2017/09/22/Mac软件安装/"  title="Mac软件安装">
  <strong>下一篇：</strong><br/> 
- <span>iOS调试之 crash log分析
+ <span>Mac软件安装
 </span>
 </a>
 </div>
@@ -200,7 +166,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">Contents</strong>
  
- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前因"><span class="toc-number">1.</span> <span class="toc-text">前因</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#前期准备"><span class="toc-number">2.</span> <span class="toc-text">前期准备</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#begin"><span class="toc-number">3.</span> <span class="toc-text">begin</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#服务器配置"><span class="toc-number">3.1.</span> <span class="toc-text">服务器配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Charles配置"><span class="toc-number">3.2.</span> <span class="toc-text">Charles配置</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考链接"><span class="toc-number">4.</span> <span class="toc-text">参考链接</span></a></li></ol>
+ 
  
   </div>
 
