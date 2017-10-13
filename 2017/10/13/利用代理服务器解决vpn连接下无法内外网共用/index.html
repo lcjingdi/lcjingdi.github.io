@@ -4,29 +4,25 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>利用Charles进行JS调试 | lcjingdi的博客</title>
+    <title>利用代理服务器解决vpn下内网无法访问的问题 | lcjingdi的博客</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="lcjingdi">
     
 
     
-    <meta name="description" content="前因iOS开发中，尤其是和web混编的过程中，最烦的就是调试啦，检查错误的过程中，前端开发人员需要修改保存后，我们本机再通过运行程序，打开webview进行调试，有点麻烦，利用charles的map和write功能就可以很容易的和后台的小伙伴进行调试啦 本篇的目的就是截取请求，把请求重定向到本地文件 前期准备 本地搭建服务器（本例为本机自己搭建的apache服务器）放在服务器上的一些html／cs">
-<meta name="keywords" content="Charles">
+    <meta name="description" content="前言：由于经常需要去google查一些资料，买了一个翻墙的软件，但是出现的问题是连接了翻墙软件后，再运行svn或者内网环境的开发，都会出问题，需要不停的切换内外网环境，造成了不必要的时间浪费，今天正好配置代理服务器的过程中解决了这个问题，记录一下 步骤 首先在电脑上打开vpn，能正常科学的上网 打开charles进行设置，具体设置如下 macOS Proxy勾选 设置Proxy Settings…">
+<meta name="keywords" content="网络问题">
 <meta property="og:type" content="article">
-<meta property="og:title" content="利用Charles进行JS调试">
-<meta property="og:url" content="http://melonshare.com/2017/09/07/利用Charles进行JS调试/index.html">
+<meta property="og:title" content="利用代理服务器解决vpn下内网无法访问的问题">
+<meta property="og:url" content="http://melonshare.com/2017/10/13/利用代理服务器解决vpn连接下无法内外网共用/index.html">
 <meta property="og:site_name" content="lcjingdi的博客">
-<meta property="og:description" content="前因iOS开发中，尤其是和web混编的过程中，最烦的就是调试啦，检查错误的过程中，前端开发人员需要修改保存后，我们本机再通过运行程序，打开webview进行调试，有点麻烦，利用charles的map和write功能就可以很容易的和后台的小伙伴进行调试啦 本篇的目的就是截取请求，把请求重定向到本地文件 前期准备 本地搭建服务器（本例为本机自己搭建的apache服务器）放在服务器上的一些html／cs">
+<meta property="og:description" content="前言：由于经常需要去google查一些资料，买了一个翻墙的软件，但是出现的问题是连接了翻墙软件后，再运行svn或者内网环境的开发，都会出问题，需要不停的切换内外网环境，造成了不必要的时间浪费，今天正好配置代理服务器的过程中解决了这个问题，记录一下 步骤 首先在电脑上打开vpn，能正常科学的上网 打开charles进行设置，具体设置如下 macOS Proxy勾选 设置Proxy Settings…">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://melonshare.com/images/iOS利用Charles进行JS调试1.png">
-<meta property="og:image" content="http://melonshare.com/images/iOS利用Charles进行JS调试2.png">
-<meta property="og:image" content="http://melonshare.com/images/iOS利用Charles进行JS调试3.png">
-<meta property="og:updated_time" content="2017-09-22T02:19:11.000Z">
+<meta property="og:updated_time" content="2017-10-13T08:45:02.227Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="利用Charles进行JS调试">
-<meta name="twitter:description" content="前因iOS开发中，尤其是和web混编的过程中，最烦的就是调试啦，检查错误的过程中，前端开发人员需要修改保存后，我们本机再通过运行程序，打开webview进行调试，有点麻烦，利用charles的map和write功能就可以很容易的和后台的小伙伴进行调试啦 本篇的目的就是截取请求，把请求重定向到本地文件 前期准备 本地搭建服务器（本例为本机自己搭建的apache服务器）放在服务器上的一些html／cs">
-<meta name="twitter:image" content="http://melonshare.com/images/iOS利用Charles进行JS调试1.png">
+<meta name="twitter:title" content="利用代理服务器解决vpn下内网无法访问的问题">
+<meta name="twitter:description" content="前言：由于经常需要去google查一些资料，买了一个翻墙的软件，但是出现的问题是连接了翻墙软件后，再运行svn或者内网环境的开发，都会出问题，需要不停的切换内外网环境，造成了不必要的时间浪费，今天正好配置代理服务器的过程中解决了这个问题，记录一下 步骤 首先在电脑上打开vpn，能正常科学的上网 打开charles进行设置，具体设置如下 macOS Proxy勾选 设置Proxy Settings…">
 
     
     
@@ -84,14 +80,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2017/09/07/利用Charles进行JS调试/" title="利用Charles进行JS调试" itemprop="url">利用Charles进行JS调试</a>
+      <a href="/2017/10/13/利用代理服务器解决vpn连接下无法内外网共用/" title="利用代理服务器解决vpn下内网无法访问的问题" itemprop="url">利用代理服务器解决vpn下内网无法访问的问题</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="lcjingdi" target="_blank" itemprop="author">lcjingdi</a>
 		
   <p class="article-time">
-    <time datetime="2017-09-06T16:00:00.000Z" itemprop="datePublished"> Published 2017-09-07</time>
+    <time datetime="2017-10-12T16:00:00.000Z" itemprop="datePublished"> Published 2017-10-13</time>
     
   </p>
 </header>
@@ -100,37 +96,58 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">Contents</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前因"><span class="toc-number">1.</span> <span class="toc-text">前因</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#前期准备"><span class="toc-number">2.</span> <span class="toc-text">前期准备</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#begin"><span class="toc-number">3.</span> <span class="toc-text">begin</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#服务器配置"><span class="toc-number">3.1.</span> <span class="toc-text">服务器配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Charles配置"><span class="toc-number">3.2.</span> <span class="toc-text">Charles配置</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考链接"><span class="toc-number">4.</span> <span class="toc-text">参考链接</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言："><span class="toc-number">1.</span> <span class="toc-text">前言：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#步骤"><span class="toc-number">2.</span> <span class="toc-text">步骤</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">3.</span> <span class="toc-text">总结</span></a></li></ol>
 		
 		</div>
 		
-		<h2 id="前因"><a href="#前因" class="headerlink" title="前因"></a>前因</h2><p>iOS开发中，尤其是和web混编的过程中，最烦的就是调试啦，检查错误的过程中，前端开发人员需要修改保存后，我们本机再通过运行程序，打开webview进行调试，有点麻烦，利用<strong>charles</strong>的<code>map</code>和<code>write</code>功能就可以很容易的和后台的小伙伴进行调试啦</p>
-<p><strong>本篇的目的就是截取请求，把请求重定向到本地文件</strong></p>
-<h2 id="前期准备"><a href="#前期准备" class="headerlink" title="前期准备"></a>前期准备</h2><ol>
-<li>本地搭建服务器（本例为本机自己搭建的apache服务器）放在服务器上的一些html／css／js文件 目录结构如下：<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">.</div><div class="line">├── index2.html</div><div class="line">└── index.html</div></pre></td></tr></table></figure>
+		<h2 id="前言："><a href="#前言：" class="headerlink" title="前言："></a>前言：</h2><p>由于经常需要去google查一些资料，买了一个翻墙的软件，但是出现的问题是连接了翻墙软件后，再运行svn或者内网环境的开发，都会出问题，需要不停的切换内外网环境，造成了不必要的时间浪费，今天正好配置代理服务器的过程中解决了这个问题，记录一下</p>
+<h2 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h2><ol>
+<li>首先在电脑上打开vpn，能正常科学的上网</li>
+<li>打开charles进行设置，具体设置如下<ul>
+<li>macOS Proxy勾选</li>
+<li>设置Proxy Settings…<ul>
+<li>Proxies<ul>
+<li>Port:8888</li>
+</ul>
+</li>
+<li>macOS<ul>
+<li>勾选Enable macOS proxy</li>
+<li>勾选Use HTTP proxy</li>
+<li>勾选Enable macOS proxy launch</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>设置SSL Proxying Settings…<ul>
+<li>SSL Proxying<ul>
+<li>勾选Enable SSL Proxying</li>
+<li>在下面add进去需要使用SSL代理的IP地址（此处的操作主要是为了拦截一些ip的代理，如果不选择，则没有影响，因为在host中已经设置了访问某些域名的时候自动转为访问内网的ip）</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
 </li>
 </ol>
-<p>以上步骤类似于像服务器发送一个请求，所得到的文件index.html，我们的<code>目的</code>就是把请求的index.html文件映射到index2.html文件</p>
-<blockquote>
-<p>虽然都是本地文件，但是意义是不同的，哪个文件直接被请求，那么这个文件就相当于在服务器上，另外一个文件在本地</p>
-</blockquote>
-<h2 id="begin"><a href="#begin" class="headerlink" title="begin"></a>begin</h2><h3 id="服务器配置"><a href="#服务器配置" class="headerlink" title="服务器配置"></a>服务器配置</h3><p>搭建apache服务器网上有很多教程，就不详细介绍apache的安装过程了，大概介绍下是怎么配置的服务器</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>charles的作用主要是来充当代理服务器，局域网内任何设备只要把代理设置为此设备的ip和端口，则可以享受此ip提供的各种服务</p>
+<p>例如在此电脑上开了</p>
 <ol>
-<li>修改apache的虚拟主机为本地的文件夹<br><img src="/images/iOS利用Charles进行JS调试1.png" alt="image.png"><br>本例修改为桌面的network文件夹（可以想象成此文件夹就是后台提供的服务器地址）对应的域名为www.xxoo.com（即在浏览器地址栏中输入www.xxoo.com会访问你这个文件夹下的index.html/index.php文件，具体的默认文件名，需要在apache中设置 就不多介绍了）</li>
-<li>修改host文件，以便访问www.xxoo.com能访问你本地的network文件夹下的index.html文件</li>
+<li>ftp服务 </li>
+<li>apache 的http服务</li>
+<li>http代理服务</li>
+<li>远程登录服务</li>
 </ol>
-<p><img src="/images/iOS利用Charles进行JS调试2.png" alt="image.png"></p>
-<p>准备工作做完后，就可以在这个文件夹中创建一个index.html文件，在浏览器输入www.xxoo.com打开（一切准备就绪，开始下一步一步）</p>
-<p>index.html文件</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">&lt;!DOCTYPE html&gt;</div><div class="line">&lt;html lang=<span class="string">"en"</span>&gt;</div><div class="line">&lt;head&gt;</div><div class="line">	&lt;meta charset=<span class="string">"UTF-8"</span>&gt;</div><div class="line">	&lt;title&gt;网络服务器&lt;<span class="regexp">/title&gt;</span></div><div class="line"><span class="regexp">	&lt;link rel="stylesheet" type="text/</span>css<span class="string">" href="</span>css/main.css<span class="string">"&gt;</span></div><div class="line"><span class="string">	&lt;script type="</span>text/javascript<span class="string">" src="</span>js/main.js<span class="string">"&gt;&lt;/script&gt;</span></div><div class="line"><span class="string">&lt;/head&gt;</span></div><div class="line"><span class="string">&lt;body&gt;</span></div><div class="line"><span class="string">&lt;div&gt;</span></div><div class="line"><span class="string">  &lt;span&gt;网络服务器&lt;/span&gt;</span></div><div class="line"><span class="string">&lt;/div&gt;</span></div><div class="line"><span class="string">&lt;/body&gt;</span></div><div class="line"><span class="string">&lt;/html&gt;</span></div></pre></td></tr></table></figure>
-<p>index2.html文件</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">&lt;!DOCTYPE html&gt;</div><div class="line">&lt;html lang=<span class="string">"en"</span>&gt;</div><div class="line">&lt;head&gt;</div><div class="line">	&lt;meta charset=<span class="string">"UTF-8"</span>&gt;</div><div class="line">	&lt;title&gt;本地映射文件&lt;<span class="regexp">/title&gt;</span></div><div class="line"><span class="regexp">	&lt;link rel="stylesheet" type="text/</span>css<span class="string">" href="</span>css/main.css<span class="string">"&gt;</span></div><div class="line"><span class="string">	&lt;script type="</span>text/javascript<span class="string">" src="</span>js/main.js<span class="string">"&gt;&lt;/script&gt;</span></div><div class="line"><span class="string">&lt;/head&gt;</span></div><div class="line"><span class="string">&lt;body&gt;</span></div><div class="line"><span class="string">	&lt;div&gt;</span></div><div class="line"><span class="string">      &lt;span&gt;本地服务器&lt;/span&gt;</span></div><div class="line"><span class="string">	&lt;/div&gt;</span></div><div class="line"><span class="string">&lt;/body&gt;</span></div><div class="line"><span class="string">&lt;/html&gt;</span></div></pre></td></tr></table></figure>
-<p>效果图：</p>
-<p><img src="/images/iOS利用Charles进行JS调试3.png" alt="image.png"></p>
-<h3 id="Charles配置"><a href="#Charles配置" class="headerlink" title="Charles配置"></a>Charles配置</h3><h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul>
-<li><a href="http://www.heyuan110.com/2015/08/15/Charles%E8%BE%85%E5%8A%A9%E8%B0%83%E8%AF%95%E6%8E%A5%E5%8F%A3/" target="_blank" rel="external">Charles辅助调试接口</a></li>
-<li><a href="http://www.cnblogs.com/wonyun/p/5586746.html" target="_blank" rel="external">charles本地调试之map和rewrite功能</a></li>
-</ul>
+<p>为什么说解决了翻墙和内网开发的问题呢？</p>
+<ol>
+<li><p>svn和翻墙的影响</p>
+<p>因为svn协议和http/https协议的不同，所以这两个没有影响，因为在两台电脑上</p>
+</li>
+<li><p>可以无证书安装的进行内网线下测试（安装证书只是为了截取请求）</p>
+</li>
+</ol>
+<p><code>charlse中-&gt;Proxy-&gt;SSL Proxying Settings</code></p>
+<p><strong>此处要注意</strong></p>
+<p>如果勾选Enable SSL Proxying的话,并且一般设置为 <code>*.*</code>的话会出现的问题是，所有的https都会走代理，但是如果不安装证书或者证书不被信任（iOS10以上安装完需要去设置信任）的话，会出现证书问题</p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -138,13 +155,13 @@
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/Tools/">Tools</a>
+  <a class="article-category-link" href="/categories/网络/">网络</a>
 </div>
 
 
   <div class="article-tags">
   
-  <span></span> <a href="/source/tags/Charles/">Charles</a>
+  <span></span> <a href="/source/tags/网络问题/">网络问题</a>
   </div>
 
 </div>
@@ -153,7 +170,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://melonshare.com/2017/09/07/利用Charles进行JS调试/" data-title="利用Charles进行JS调试 | lcjingdi的博客" data-tsina="" class="share clearfix">
+	  <div data-url="http://melonshare.com/2017/10/13/利用代理服务器解决vpn连接下无法内外网共用/" data-title="利用代理服务器解决vpn下内网无法访问的问题 | lcjingdi的博客" data-tsina="" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -166,19 +183,11 @@
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2017/09/13/iOS9图片格式导致的问题/" title="图片格式不一致可能导致的问题分析">
-  <strong>上一篇：</strong><br/>
-  <span>
-  图片格式不一致可能导致的问题分析</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2017/09/01/iOS调试之 crash log分析/"  title="iOS调试之 crash log分析">
+<a href="/2017/10/11/从头开始做一个内部点餐系统/"  title="从头开始做一个内部点餐系统">
  <strong>下一篇：</strong><br/> 
- <span>iOS调试之 crash log分析
+ <span>从头开始做一个内部点餐系统
 </span>
 </a>
 </div>
@@ -200,7 +209,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">Contents</strong>
  
- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前因"><span class="toc-number">1.</span> <span class="toc-text">前因</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#前期准备"><span class="toc-number">2.</span> <span class="toc-text">前期准备</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#begin"><span class="toc-number">3.</span> <span class="toc-text">begin</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#服务器配置"><span class="toc-number">3.1.</span> <span class="toc-text">服务器配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Charles配置"><span class="toc-number">3.2.</span> <span class="toc-text">Charles配置</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考链接"><span class="toc-number">4.</span> <span class="toc-text">参考链接</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言："><span class="toc-number">1.</span> <span class="toc-text">前言：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#步骤"><span class="toc-number">2.</span> <span class="toc-text">步骤</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">3.</span> <span class="toc-text">总结</span></a></li></ol>
  
   </div>
 
