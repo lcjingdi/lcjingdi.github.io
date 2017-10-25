@@ -11,18 +11,18 @@
     
 
     
-    <meta name="description" content="解决的问题学习的路线遇到的问题使用情况一些技术点自动发送邮件 发送邮件  由于每天要发送一份邮件，所以使用了php的phpmailer   自动发送  使用了mac上的crontab定时服务  123456789101112131415161718192021222324#crontab一些常用命令crontab -l	#查看定时任务crontab -e 	#编辑定时任务crontab -r	#删">
+    <meta name="description" content="解决的问题学习的路线遇到的问题使用情况一些技术点自动发送邮件 发送邮件  由于每天要发送一份邮件，所以使用了php的phpmailer   自动发送  使用了mac上的crontab定时服务  123456789101112131415161718192021#crontab一些常用命令crontab -l	#查看定时任务crontab -e 	#编辑定时任务crontab -r	#删除所有的定时">
 <meta name="keywords" content="订餐">
 <meta property="og:type" content="article">
 <meta property="og:title" content="从头开始做一个内部点餐系统">
 <meta property="og:url" content="http://melonshare.com/2017/10/11/从头开始做一个内部点餐系统/index.html">
 <meta property="og:site_name" content="lcjingdi的博客">
-<meta property="og:description" content="解决的问题学习的路线遇到的问题使用情况一些技术点自动发送邮件 发送邮件  由于每天要发送一份邮件，所以使用了php的phpmailer   自动发送  使用了mac上的crontab定时服务  123456789101112131415161718192021222324#crontab一些常用命令crontab -l	#查看定时任务crontab -e 	#编辑定时任务crontab -r	#删">
+<meta property="og:description" content="解决的问题学习的路线遇到的问题使用情况一些技术点自动发送邮件 发送邮件  由于每天要发送一份邮件，所以使用了php的phpmailer   自动发送  使用了mac上的crontab定时服务  123456789101112131415161718192021#crontab一些常用命令crontab -l	#查看定时任务crontab -e 	#编辑定时任务crontab -r	#删除所有的定时">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-10-23T02:40:55.535Z">
+<meta property="og:updated_time" content="2017-10-25T14:35:09.018Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="从头开始做一个内部点餐系统">
-<meta name="twitter:description" content="解决的问题学习的路线遇到的问题使用情况一些技术点自动发送邮件 发送邮件  由于每天要发送一份邮件，所以使用了php的phpmailer   自动发送  使用了mac上的crontab定时服务  123456789101112131415161718192021222324#crontab一些常用命令crontab -l	#查看定时任务crontab -e 	#编辑定时任务crontab -r	#删">
+<meta name="twitter:description" content="解决的问题学习的路线遇到的问题使用情况一些技术点自动发送邮件 发送邮件  由于每天要发送一份邮件，所以使用了php的phpmailer   自动发送  使用了mac上的crontab定时服务  123456789101112131415161718192021#crontab一些常用命令crontab -l	#查看定时任务crontab -e 	#编辑定时任务crontab -r	#删除所有的定时">
 
     
     
@@ -110,14 +110,15 @@
 <blockquote>
 <p>使用了mac上的crontab定时服务</p>
 </blockquote>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#</span>crontab一些常用命令</div><div class="line">crontab -l	#查看定时任务</div><div class="line">crontab -e 	#编辑定时任务</div><div class="line">crontab -r	#删除所有的定时任务</div><div class="line">*/1 * * * * php /xxx/xxx.php	#每分钟执行一次 "php /xxx/xxx.php"</div><div class="line"></div><div class="line">* * * * * 这五颗星分别代表</div><div class="line">minute   hour   day   month   dayofweek</div><div class="line">minute — 分钟，从 0 到 59 之间的任何整数</div><div class="line">hour — 小时，从 0 到 23 之间的任何整数</div><div class="line">day — 日期，从 1 到 31 之间的任何整数（如果指定了月份，必须是该月份的有效日期）</div><div class="line">month — 月份，从 1 到 12 之间的任何整数（或使用月份的英文简写如 jan、feb 等等）</div><div class="line">dayofweek — 星期，从 0 到 7 之间的任何整数，这里的 0 或 7 代表星期日（或使用星期的英文简写如 sun、mon 等等）</div><div class="line">在以上任何值中，星号（*）可以用来代表所有有效的值。譬如，月份值中的星号意味着在满足其它制约条件后每月都执行该命令。</div><div class="line">整数间的短线（-）指定一个整数范围。譬如，1-4 意味着整数 1、2、3、4。</div><div class="line">用逗号（,）隔开的一系列值指定一个列表。譬如，3, 4, 6, 8 标明这四个指定的整数。</div><div class="line">正斜线（/）可以用来指定间隔频率。在范围后加上 /&lt;integer&gt; 意味着在范围内可以跳过 integer。譬如，0-59/2 可以用来在分钟字段定义每两分钟。间隔频率值还可以和星号一起使用。例如，*/3 的值可以用在月份字段中表示每三个月运行一次任务。</div><div class="line">开头为井号（#）的行是注释，不会被处理。</div><div class="line"></div><div class="line"></div><div class="line">mac上运行crontab命令：</div><div class="line">sudo /usr/sbin/cron start</div><div class="line">sudo /usr/sbin/cron restart</div><div class="line">sudo /usr/sbin/cron stop</div></pre></td></tr></table></figure>
-<p>​</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#</span>crontab一些常用命令</div><div class="line">crontab -l	#查看定时任务</div><div class="line">crontab -e 	#编辑定时任务</div><div class="line">crontab -r	#删除所有的定时任务</div><div class="line">*/1 * * * * php /xxx/xxx.php	#每分钟执行一次 "php /xxx/xxx.php"</div><div class="line">* * * * * 这五颗星分别代表</div><div class="line">minute   hour   day   month   dayofweek</div><div class="line">minute — 分钟，从 0 到 59 之间的任何整数</div><div class="line">hour — 小时，从 0 到 23 之间的任何整数</div><div class="line">day — 日期，从 1 到 31 之间的任何整数（如果指定了月份，必须是该月份的有效日期）</div><div class="line">month — 月份，从 1 到 12 之间的任何整数（或使用月份的英文简写如 jan、feb 等等）</div><div class="line">dayofweek — 星期，从 0 到 7 之间的任何整数，这里的 0 或 7 代表星期日（或使用星期的英文简写如 sun、mon 等等）</div><div class="line">在以上任何值中，星号（*）可以用来代表所有有效的值。譬如，月份值中的星号意味着在满足其它制约条件后每月都执行该命令。</div><div class="line">整数间的短线（-）指定一个整数范围。譬如，1-4 意味着整数 1、2、3、4。</div><div class="line">用逗号（,）隔开的一系列值指定一个列表。譬如，3, 4, 6, 8 标明这四个指定的整数。</div><div class="line">正斜线（/）可以用来指定间隔频率。在范围后加上 /&lt;integer&gt; 意味着在范围内可以跳过 integer。譬如，0-59/2 可以用来在分钟字段定义每两分钟。间隔频率值还可以和星号一起使用。例如，*/3 的值可以用在月份字段中表示每三个月运行一次任务。</div><div class="line">开头为井号（#）的行是注释，不会被处理。</div><div class="line">mac上运行crontab命令：</div><div class="line">sudo /usr/sbin/cron start</div><div class="line">sudo /usr/sbin/cron restart</div><div class="line">sudo /usr/sbin/cron stop</div></pre></td></tr></table></figure>
 </li>
 </ol>
 <h1 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h1><ul>
 <li><a href="http://blog.csdn.net/wangyi201212/article/details/43270389" target="_blank" rel="external">通过js动态创建标签，并设置属性</a></li>
 <li><a href="http://blog.csdn.net/baalhuo/article/details/51178154" target="_blank" rel="external">Bootstrap 模态框（Modal）插件数据传值</a></li>
 <li><a href="http://blog.csdn.net/baidu_30000217/article/details/51550259" target="_blank" rel="external">PHP中利用PHPMailer配合QQ邮箱实现发邮件</a></li>
+<li>[<a href="http://blog.csdn.net/u011410529/article/details/50294709" target="_blank" rel="external">sql server日期函数 怎么查询日期时间</a></li>
+<li>​</li>
 </ul>
   
 	</div>
@@ -251,15 +252,11 @@
 			
 		
 			
-				<li><a href="/source/tags/适配/" title="适配">适配<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/source/tags/IDE/" title="IDE">IDE<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/source/tags/blog/" title="blog">blog<sup>1</sup></a></li>
+				<li><a href="/source/tags/适配/" title="适配">适配<sup>1</sup></a></li>
 			
 		
 			
@@ -267,11 +264,15 @@
 			
 		
 			
-				<li><a href="/source/tags/iOS/" title="iOS">iOS<sup>1</sup></a></li>
+				<li><a href="/source/tags/blog/" title="blog">blog<sup>1</sup></a></li>
 			
 		
 			
 				<li><a href="/source/tags/图片/" title="图片">图片<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/source/tags/iOS/" title="iOS">iOS<sup>1</sup></a></li>
 			
 		
 			
@@ -280,8 +281,6 @@
 		
 			
 				<li><a href="/source/tags/网络问题/" title="网络问题">网络问题<sup>1</sup></a></li>
-			
-		
 			
 		
 		</ul>
