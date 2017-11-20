@@ -4,27 +4,45 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>Xcode9运行iOS7真机调试 | lcjingdi的博客</title>
+    <title>SVN + PGY + XCodeServer 搭建CI系统 | lcjingdi的博客</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="lcjingdi">
     
 
     
-    <meta name="description" content="由于从Xcode9只支持iOS8以上的设备  原因：不支持iOS7.0以上版本是因为在/Applications/Xcode.app(Xcode-beta.app此路径为beta版的路径)/Contents/Developer/Platforms/iPhoneOS.platform/DeviceSupport此目录下并不包含7.0的真机系统文件夹，所以不能进行调试 解决方法：直接从别的Xcode或">
-<meta name="keywords" content="IDE">
+    <meta name="description" content="简介持续集成是一种软件开发实践，即团队开发成员经常集成他们的工作，通过每个成员每天至少集成一次，也就意味着每天可能会发生多次集成。每次集成都通过自动化的构建（包括编译，发布，自动化测试）来验证，从而尽早地发现集成错误。 步骤">
+<meta name="keywords" content="CI">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Xcode9运行iOS7真机调试">
-<meta property="og:url" content="http://melonshare.com/2017/05/01/Xcode9运行iOS7真机调试/index.html">
+<meta property="og:title" content="SVN + PGY + XCodeServer 搭建CI系统">
+<meta property="og:url" content="http://melonshare.com/2017/11/20/svn_pgy_xcodeserver_ci/index.html">
 <meta property="og:site_name" content="lcjingdi的博客">
-<meta property="og:description" content="由于从Xcode9只支持iOS8以上的设备  原因：不支持iOS7.0以上版本是因为在/Applications/Xcode.app(Xcode-beta.app此路径为beta版的路径)/Contents/Developer/Platforms/iPhoneOS.platform/DeviceSupport此目录下并不包含7.0的真机系统文件夹，所以不能进行调试 解决方法：直接从别的Xcode或">
+<meta property="og:description" content="简介持续集成是一种软件开发实践，即团队开发成员经常集成他们的工作，通过每个成员每天至少集成一次，也就意味着每天可能会发生多次集成。每次集成都通过自动化的构建（包括编译，发布，自动化测试）来验证，从而尽早地发现集成错误。 步骤">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://melonshare.com/images/Xcode9运行iOS7真机调试1.png">
-<meta property="og:updated_time" content="2017-09-14T00:52:02.000Z">
+<meta property="og:image" content="http://melonshare.com/images/svn1.png">
+<meta property="og:image" content="http://melonshare.com/images/svn2.png">
+<meta property="og:image" content="http://melonshare.com/images/svn3.png">
+<meta property="og:image" content="http://melonshare.com/images/svn5.png">
+<meta property="og:image" content="http://melonshare.com/images/svn6.png">
+<meta property="og:image" content="http://melonshare.com/images/svn7.png">
+<meta property="og:image" content="http://melonshare.com/images/svn8.png">
+<meta property="og:image" content="http://melonshare.com/images/svn9.png">
+<meta property="og:image" content="http://melonshare.com/images/svn10.png">
+<meta property="og:image" content="http://melonshare.com/images/svn11.png">
+<meta property="og:image" content="http://melonshare.com/images/svn12.png">
+<meta property="og:image" content="http://melonshare.com/images/svn13.png">
+<meta property="og:image" content="http://melonshare.com/images/svn14.png">
+<meta property="og:image" content="http://melonshare.com/images/svn15.png">
+<meta property="og:image" content="http://melonshare.com/images/svn16.png">
+<meta property="og:image" content="http://melonshare.com/images/svn17.png">
+<meta property="og:image" content="http://melonshare.com/images/svn18.png">
+<meta property="og:image" content="http://melonshare.com/images/svn19.png">
+<meta property="og:image" content="http://melonshare.com/images/svn20.png">
+<meta property="og:updated_time" content="2017-11-20T09:36:23.362Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Xcode9运行iOS7真机调试">
-<meta name="twitter:description" content="由于从Xcode9只支持iOS8以上的设备  原因：不支持iOS7.0以上版本是因为在/Applications/Xcode.app(Xcode-beta.app此路径为beta版的路径)/Contents/Developer/Platforms/iPhoneOS.platform/DeviceSupport此目录下并不包含7.0的真机系统文件夹，所以不能进行调试 解决方法：直接从别的Xcode或">
-<meta name="twitter:image" content="http://melonshare.com/images/Xcode9运行iOS7真机调试1.png">
+<meta name="twitter:title" content="SVN + PGY + XCodeServer 搭建CI系统">
+<meta name="twitter:description" content="简介持续集成是一种软件开发实践，即团队开发成员经常集成他们的工作，通过每个成员每天至少集成一次，也就意味着每天可能会发生多次集成。每次集成都通过自动化的构建（包括编译，发布，自动化测试）来验证，从而尽早地发现集成错误。 步骤">
+<meta name="twitter:image" content="http://melonshare.com/images/svn1.png">
 
     
     
@@ -82,14 +100,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2017/05/01/Xcode9运行iOS7真机调试/" title="Xcode9运行iOS7真机调试" itemprop="url">Xcode9运行iOS7真机调试</a>
+      <a href="/2017/11/20/svn_pgy_xcodeserver_ci/" title="SVN + PGY + XCodeServer 搭建CI系统" itemprop="url">SVN + PGY + XCodeServer 搭建CI系统</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="lcjingdi" target="_blank" itemprop="author">lcjingdi</a>
 		
   <p class="article-time">
-    <time datetime="2017-04-30T16:00:00.000Z" itemprop="datePublished"> Published 2017-05-01</time>
+    <time datetime="2017-11-19T16:00:00.000Z" itemprop="datePublished"> Published 2017-11-20</time>
     
   </p>
 </header>
@@ -98,15 +116,12 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">Contents</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#原因："><span class="toc-number">1.</span> <span class="toc-text">原因：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#解决方法："><span class="toc-number">2.</span> <span class="toc-text">解决方法：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#下载链接"><span class="toc-number">3.</span> <span class="toc-text">下载链接</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#简介"><span class="toc-number">1.</span> <span class="toc-text">简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#步骤"><span class="toc-number">2.</span> <span class="toc-text">步骤</span></a></li></ol>
 		
 		</div>
 		
-		<p>由于从Xcode9只支持iOS8以上的设备</p>
-<p><img src="/images/Xcode9运行iOS7真机调试1.png" alt=""></p>
-<h2 id="原因："><a href="#原因：" class="headerlink" title="原因："></a>原因：</h2><p>不支持iOS7.0以上版本是因为在<code>/Applications/Xcode.app(Xcode-beta.app此路径为beta版的路径)/Contents/Developer/Platforms/iPhoneOS.platform/DeviceSupport</code>此目录下并不包含7.0的真机系统文件夹，所以不能进行调试</p>
-<h2 id="解决方法："><a href="#解决方法：" class="headerlink" title="解决方法："></a>解决方法：</h2><p>直接从别的Xcode或者网上下载对应真机的文件夹</p>
-<h2 id="下载链接"><a href="#下载链接" class="headerlink" title="下载链接"></a>下载链接</h2><p>百度网盘下载地址：<br><a href="https://pan.baidu.com/s/1kVgMALT" target="_blank" rel="external">https://pan.baidu.com/s/1kVgMALT</a><br>密码：q9ut</p>
+		<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>持续集成是一种软件开发实践，即团队开发成员经常集成他们的工作，通过每个成员每天至少集成一次，也就意味着每天可能会发生多次集成。每次集成都通过自动化的构建（包括编译，发布，自动化测试）来验证，从而尽早地发现集成错误。</p>
+<h2 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h2><p><img src="/images/svn1.png" alt="配置第二步"><br><img src="/images/svn2.png" alt="配置第二步"><br><img src="/images/svn3.png" alt="配置第二步"><br><img src="/images/svn5.png" alt="配置第二步"><br><img src="/images/svn6.png" alt="配置第二步"><br><img src="/images/svn7.png" alt="配置第二步"><br><img src="/images/svn8.png" alt="配置第二步"><br><img src="/images/svn9.png" alt="配置第二步"><br><img src="/images/svn10.png" alt="配置第二步"><br><img src="/images/svn11.png" alt="配置第二步"><br><img src="/images/svn12.png" alt="配置第二步"><br><img src="/images/svn13.png" alt="配置第二步"><br><img src="/images/svn14.png" alt="配置第二步"><br><img src="/images/svn15.png" alt="配置第二步"><br><img src="/images/svn16.png" alt="配置第二步"><br><img src="/images/svn17.png" alt="配置第二步"><br><img src="/images/svn18.png" alt="配置第二步"><br><img src="/images/svn19.png" alt="配置第二步"><br><img src="/images/svn20.png" alt="配置第二步"></p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -120,7 +135,7 @@
 
   <div class="article-tags">
   
-  <span></span> <a href="/source/tags/IDE/">IDE</a>
+  <span></span> <a href="/source/tags/CI/">CI</a>
   </div>
 
 </div>
@@ -129,7 +144,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://melonshare.com/2017/05/01/Xcode9运行iOS7真机调试/" data-title="Xcode9运行iOS7真机调试 | lcjingdi的博客" data-tsina="" class="share clearfix">
+	  <div data-url="http://melonshare.com/2017/11/20/svn_pgy_xcodeserver_ci/" data-title="SVN + PGY + XCodeServer 搭建CI系统 | lcjingdi的博客" data-tsina="" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -142,19 +157,11 @@
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2017/09/01/iOS调试之 crash log分析/" title="iOS调试之 crash log分析">
-  <strong>上一篇：</strong><br/>
-  <span>
-  iOS调试之 crash log分析</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2017/01/12/github搭建博客/"  title="Github + Hexo 构建个人博客">
+<a href="/2017/10/13/利用代理服务器解决vpn连接下无法内外网共用/"  title="利用代理服务器解决vpn下内网无法访问的问题">
  <strong>下一篇：</strong><br/> 
- <span>Github + Hexo 构建个人博客
+ <span>利用代理服务器解决vpn下内网无法访问的问题
 </span>
 </a>
 </div>
@@ -176,7 +183,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">Contents</strong>
  
- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#原因："><span class="toc-number">1.</span> <span class="toc-text">原因：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#解决方法："><span class="toc-number">2.</span> <span class="toc-text">解决方法：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#下载链接"><span class="toc-number">3.</span> <span class="toc-text">下载链接</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#简介"><span class="toc-number">1.</span> <span class="toc-text">简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#步骤"><span class="toc-number">2.</span> <span class="toc-text">步骤</span></a></li></ol>
  
   </div>
 
