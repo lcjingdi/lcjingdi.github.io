@@ -20,7 +20,7 @@
 <meta property="og:description" content="介绍最近发现了公司有一款app在其中某几款iOS系统中崩溃率特别高：51.7%,9.2.1、18.6%,9.0.2、16.6%,9.1、11.7%,9.2、1.4%,7.1，经和同事（此处特别感谢美女同事WYJ帮助）排查发现可能是由于图片的问题造成的，特补了下关于图片的一些基础知识 基础知识图片分类：位图我们最常使用的的图片类型，主要包括png、gif、jpeg（jpg），其中png这种无损压缩的">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://melonshare.com/images/图片格式不一致可能导致的问题分析1.png">
-<meta property="og:updated_time" content="2017-11-20T09:27:53.756Z">
+<meta property="og:updated_time" content="2017-11-20T09:27:53.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="图片格式不一致可能导致的问题分析">
 <meta name="twitter:description" content="介绍最近发现了公司有一款app在其中某几款iOS系统中崩溃率特别高：51.7%,9.2.1、18.6%,9.0.2、16.6%,9.1、11.7%,9.2、1.4%,7.1，经和同事（此处特别感谢美女同事WYJ帮助）排查发现可能是由于图片的问题造成的，特补了下关于图片的一些基础知识 基础知识图片分类：位图我们最常使用的的图片类型，主要包括png、gif、jpeg（jpg），其中png这种无损压缩的">
@@ -46,7 +46,7 @@
 				<h1 class="site-name"><a href="/" title="lcjingdi的博客">lcjingdi的博客</a></h1>
 				<h2 class="blog-motto">记录自己学习的点点滴滴</h2>
 			</div>
-			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
 			</a></div>
 			<nav class="animated">
 				<ul>
@@ -66,7 +66,7 @@
  					
 					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
 						<label>Search</label>
-						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
 						<input type="hidden" name="q" value="site:melonshare.com">
 					</form>
 					
@@ -89,14 +89,14 @@
 		<a href="/about" title="lcjingdi" target="_blank" itemprop="author">lcjingdi</a>
 		
   <p class="article-time">
-    <time datetime="2017-09-12T16:00:00.000Z" itemprop="datePublished"> Published 2017-09-13</time>
+    <time datetime="2017-09-12T16:00:00.000Z" itemprop="datePublished"> 发表于 2017-09-13</time>
     
   </p>
 </header>
 	<div class="article-content">
 		
 		<div id="toc" class="toc-article">
-			<strong class="toc-title">Contents</strong>
+			<strong class="toc-title">文章目录</strong>
 		
 			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#介绍"><span class="toc-number">1.</span> <span class="toc-text">介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#基础知识"><span class="toc-number">1.1.</span> <span class="toc-text">基础知识</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#图片分类："><span class="toc-number">1.1.0.1.</span> <span class="toc-text">图片分类：</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#位图"><span class="toc-number">1.1.0.1.1.</span> <span class="toc-text">位图</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#矢量图"><span class="toc-number">1.1.0.1.2.</span> <span class="toc-text">矢量图</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#原因分析"><span class="toc-number">1.2.</span> <span class="toc-text">原因分析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考链接"><span class="toc-number">1.3.</span> <span class="toc-text">参考链接</span></a></li></ol></li></ol>
 		
@@ -222,22 +222,22 @@
 
 
 </div>  
-      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
 
   <div id="toc" class="toc-aside">
-  <strong class="toc-title">Contents</strong>
+  <strong class="toc-title">文章目录</strong>
  
  <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#介绍"><span class="toc-number">1.</span> <span class="toc-text">介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#基础知识"><span class="toc-number">1.1.</span> <span class="toc-text">基础知识</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#图片分类："><span class="toc-number">1.1.0.1.</span> <span class="toc-text">图片分类：</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#位图"><span class="toc-number">1.1.0.1.1.</span> <span class="toc-text">位图</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#矢量图"><span class="toc-number">1.1.0.1.2.</span> <span class="toc-text">矢量图</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#原因分析"><span class="toc-number">1.2.</span> <span class="toc-text">原因分析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考链接"><span class="toc-number">1.3.</span> <span class="toc-text">参考链接</span></a></li></ol></li></ol>
  
   </div>
 
 <div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
 <aside class="clearfix">
 
   
 <div class="categorieslist">
-	<p class="asidetitle">Categories</p>
+	<p class="asidetitle">分类</p>
 		<ul>
 		
 		  
@@ -278,7 +278,7 @@
 
   
 <div class="tagslist">
-	<p class="asidetitle">Tags</p>
+	<p class="asidetitle">标签</p>
 		<ul class="clearfix">
 		
 			
@@ -286,15 +286,7 @@
 			
 		
 			
-				<li><a href="/source/tags/CI/" title="CI">CI<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/source/tags/blog/" title="blog">blog<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/source/tags/适配/" title="适配">适配<sup>1</sup></a></li>
+				<li><a href="/source/tags/图片/" title="图片">图片<sup>1</sup></a></li>
 			
 		
 			
@@ -302,7 +294,19 @@
 			
 		
 			
-				<li><a href="/source/tags/Cocoapods/" title="Cocoapods">Cocoapods<sup>1</sup></a></li>
+				<li><a href="/source/tags/blog/" title="blog">blog<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/source/tags/bug/" title="bug">bug<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/source/tags/适配/" title="适配">适配<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/source/tags/CI/" title="CI">CI<sup>1</sup></a></li>
 			
 		
 			
@@ -310,11 +314,7 @@
 			
 		
 			
-				<li><a href="/source/tags/图片/" title="图片">图片<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/source/tags/bug/" title="bug">bug<sup>1</sup></a></li>
+				<li><a href="/source/tags/Cocoapods/" title="Cocoapods">Cocoapods<sup>1</sup></a></li>
 			
 		
 			
@@ -577,7 +577,7 @@ var _hmt = _hmt || [];
 <!-- Totop Begin -->
 
 	<div id="totop">
-	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
 	</div>
 	<script src="/js/totop.js"></script>
 
