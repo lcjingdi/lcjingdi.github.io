@@ -1,10 +1,10 @@
 
- <!DOCTYPE HTML>
+  <!DOCTYPE HTML>
 <html lang="zh-Hans">
 <head>
   <meta charset="UTF-8">
   
-    <title>tags | lcjingdi的博客</title>
+    <title>分类 : MySQL | lcjingdi的博客</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="lcjingdi">
@@ -12,13 +12,12 @@
 
     
     <meta property="og:type" content="website">
-<meta property="og:title" content="tags">
-<meta property="og:url" content="http://melonshare.com/tags/index.html">
+<meta property="og:title" content="lcjingdi的博客">
+<meta property="og:url" content="http://melonshare.com/categories/MySQL/index.html">
 <meta property="og:site_name" content="lcjingdi的博客">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-09-06T16:26:36.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="tags">
+<meta name="twitter:title" content="lcjingdi的博客">
 
     
     
@@ -70,43 +69,31 @@
 </div>
       </header>
       <div id="container">
-          
+        
+
 <div class="archive-title" >
-<h2 class="tag-icon">标签</h2>
-
-<a data-src="/source/tags/CI/" href="#CI" title="CI">CI<sup>1</sup></a>
-
-<a data-src="/source/tags/Charles/" href="#Charles" title="Charles">Charles<sup>2</sup></a>
-
-<a data-src="/source/tags/Cocoapods/" href="#Cocoapods" title="Cocoapods">Cocoapods<sup>1</sup></a>
-
-<a data-src="/source/tags/DDL/" href="#DDL" title="DDL">DDL<sup>1</sup></a>
-
-<a data-src="/source/tags/IDE/" href="#IDE" title="IDE">IDE<sup>1</sup></a>
-
-<a data-src="/source/tags/blog/" href="#blog" title="blog">blog<sup>1</sup></a>
-
-<a data-src="/source/tags/bug/" href="#bug" title="bug">bug<sup>1</sup></a>
-
-<a data-src="/source/tags/iOS/" href="#iOS" title="iOS">iOS<sup>1</sup></a>
-
-<a data-src="/source/tags/命令/" href="#命令" title="命令">命令<sup>0</sup></a>
-
-<a data-src="/source/tags/图片/" href="#图片" title="图片">图片<sup>1</sup></a>
-
-<a data-src="/source/tags/网络问题/" href="#网络问题" title="网络问题">网络问题<sup>1</sup></a>
-
-<a data-src="/source/tags/订餐/" href="#订餐" title="订餐">订餐<sup>1</sup></a>
-
-<a data-src="/source/tags/适配/" href="#适配" title="适配">适配<sup>1</sup></a>
-
+  <h2 class="category-icon">MySQL</h2>
+  
 </div>
-<div id="main" class="archive-part">
-<div class="all-list-box"></div>
+<div id="main" class="archive-part clearfix">
+  <div id="archive-page">
+
+  <section class="post" itemscope itemprop="blogPost">
+  
+    <a href="/2017/11/28/MySQL常用命令/" title="MySQL数据库之DDL（Data Definition Language）" itemprop="url">
+  
+
+    <time datetime="2017-11-27T16:00:00.000Z" itemprop="datePublished">2017-11-28</time>
+
+
+    <h1 itemprop="name">MySQL数据库之DDL（Data Definition Language）</h1>
+
+  </a>
+</section>
+
+
+  </div>
 </div>
-
-
-
 
       </div>
       <footer><div id="footer" >
@@ -199,47 +186,9 @@ $(document).ready(function(){
 
 
 
-<script type="text/javascript">
-
-var disqus_shortname = 'lcjingdi';
-
-(function(){
-  var dsq = document.createElement('script');
-  dsq.type = 'text/javascript';
-  dsq.async = true;
-  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-}());
-(function(){
-  var dsq = document.createElement('script');
-  dsq.type = 'text/javascript';
-  dsq.async = true;
-  dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
-  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-}());
-</script>
 
 
 
-
-
-<script type="text/javascript">
-$(document).ready(function(){ 
-  var list    = $('.archive-title a'),
-      box     = $('.all-list-box'),
-      first   = $('.archive-title a:first-of-type');
-      box.load(first.attr('data-src').toString()+' #archive-page');
-      first.addClass('current');
-  list.each(function(){
-    $(this).click(function(){
-      var listSrc=$(this).attr('data-src').toString()+' #archive-page';
-      box.load(listSrc);
-      list.removeClass('current');
-      $(this).addClass('current');
-     });  
-    });
-  }); 
-</script>
 
 
 <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
